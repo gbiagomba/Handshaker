@@ -115,3 +115,17 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+# macOS
+.DS_Store
+
+# Handshaker test/output artifacts
+output.txt
+*.output.txt
+test_output.html
+*.html.out
+*.db
+*.sqlite
+
+# Version tracking
+.version-tracking.md

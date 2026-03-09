@@ -3,9 +3,9 @@ set -euo pipefail
 
 REPO="gbiagomba/WeakSSL"
 INSTALL_DIR="/usr/local/bin"
-BIN_NAME="weakssl"
-VERSION="${WEAKSSL_VERSION:-}"
-USE_SOURCE="${WEAKSSL_USE_SOURCE:-}"
+BIN_NAME="handshaker"
+VERSION="${HANDSHAKER_VERSION:-}"
+USE_SOURCE="${HANDSHAKER_USE_SOURCE:-}"
 
 need_cmd() { command -v "$1" >/dev/null 2>&1; }
 say() { echo "[install] $*"; }
@@ -80,4 +80,3 @@ main() {
 }
 
 main "$@"
-

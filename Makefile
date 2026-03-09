@@ -1,4 +1,4 @@
-PACKAGE := weakssl
+PACKAGE := handshaker
 BIN := target/release/$(PACKAGE)
 
 .PHONY: all build debug run test fmt clean

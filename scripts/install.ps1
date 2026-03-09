@@ -1,12 +1,12 @@
 #!/usr/bin/env pwsh
 param(
-  [string]$Version = $env:WEAKSSL_VERSION,
+  [string]$Version = $env:HANDSHAKER_VERSION,
   [switch]$UseSource
 )
 
 $ErrorActionPreference = 'Stop'
 $repo = 'gbiagomba/WeakSSL'
-$bin = 'weakssl'
+$bin = 'handshaker'
 
 function Say($msg) { Write-Host "[install] $msg" }
 function Err($msg) { Write-Error "[install][error] $msg" }
@@ -74,4 +74,3 @@ if ($UseSource) {
     Install-FromSource
   }
 }
-
