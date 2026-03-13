@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.0] - 2026-03-13
+
+### Added
+- `FINDING_INDEX.MD` — comprehensive finding reference document at project root
+  - All 68 security findings across TLS (51), SSH (10), RDP (5), and General (2) protocols
+  - Each finding entry includes: ID, title, severity, CVSS 3.1 score, CVSS vector, and description
+  - Testssl-class coverage matrix mapping testssl.sh check categories to Handshaker finding IDs and implementation files
+  - Policy profile cross-reference table showing which findings are enforced under Default, PCI-DSS, NIST 800-52r2, and CIS-Like compliance profiles
+
 ## [7.2.0] - 2026-03-13
 
 ### Added
