@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.1] - 2026-03-13
+
+### Fixed
+- Removed `Cargo.lock` from `.gitignore` — binary projects must commit the lock file; `--locked` flag was failing on all CI platforms
+- `ci.yml`: replaced deprecated `actions-rs/toolchain@v1` with `dtolnay/rust-toolchain@stable`
+- `ci.yml`: replaced unavailable `macos-13` runner with `macos-latest`
+- `ci.yml`: replaced invalid `ubuntu-22.04-arm64` runner with `ubuntu-24.04-arm` (correct GitHub-hosted ARM runner name)
+- `ci.yml`: corrected binary name from `weakssl`/`weakssl.exe` to `handshaker`/`handshaker.exe` in Package steps and artifact names
+- `ci.yml`: added dedicated `test` job (`cargo test --locked`) that gates all build jobs
+- Deleted `release.yml` stub — redundant with `ci.yml`'s `release` job; both triggered on `v*` tags causing conflicts
+
 ## [7.3.0] - 2026-03-13
 
 ### Added
