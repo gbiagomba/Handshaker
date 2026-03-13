@@ -1,7 +1,7 @@
 PACKAGE := handshaker
 BIN := target/release/$(PACKAGE)
 
-.PHONY: all build debug run test fmt clean
+.PHONY: all build debug run test fmt ci clean
 
 all: build
 
@@ -22,6 +22,8 @@ test:
 
 fmt:
 	cargo fmt --all || true
+
+ci: fmt test build
 
 clean:
 	cargo clean

@@ -1,9 +1,9 @@
 [package]
 name = "handshaker"
-version = "7.1.0"
+version = "7.2.0"
 edition = "2021"
 authors = ["Gilles Biagomba and contributors"]
-license = "MIT OR Apache-2.0"
+license = "GPL-3.0"
 description = "Handshaker: native Rust secure-transport posture engine"
 repository = "https://github.com/gbiagomba/WeakSSL"
 readme = "README.md"

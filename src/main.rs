@@ -88,6 +88,9 @@ async fn main() -> Result<()> {
                 handshaker::output::sqlite::export_run(&e.path, &e.run_id)?
             }
         },
+        handshaker::cli::Commands::Help(args) => {
+            handshaker::output::write_manual(args.command.as_deref())?;
+        }
     }
     Ok(())
 }

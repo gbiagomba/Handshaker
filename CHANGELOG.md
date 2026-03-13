@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.2.0] - 2026-03-13
+
+### Added
+- `handshaker help [<cmd>]` subcommand — man-page-style documentation for all 7 subcommands with NAME, SYNOPSIS, DESCRIPTION, OPTIONS, and EXAMPLES sections
+- Triple-slash doc comments on every `#[arg]` field in `src/cli.rs` — all flags now show descriptions in `handshaker <cmd> --help` output
+- `make ci` Makefile target that runs `fmt + test + build` for use in CI pipelines
+- Per-subcommand `#[command(about = ...)]` annotations for improved `--help` top-level descriptions
+
+### Changed
+- `Cargo.toml` license corrected from `MIT OR Apache-2.0` to `GPL-3.0` (matches LICENSE file)
+- Version bumped to 7.2.0
+- `README.md` fully rewritten: 13-section structure covering features, installation (binaries/cargo/source/scripts), per-subcommand flag tables, usage examples, Docker, Makefile, contributing workflow, and GPL-3.0 license
+
 ## [7.1.0] - 2026-03-08
 
 ### Fixed
