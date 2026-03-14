@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.3] - 2026-03-14
+
+### Fixed
+- `ci.yml`: added `macos-13` (Intel x64) and `windows-11-arm` (ARM64) to build matrix so both architectures appear in GitHub Releases
+  - `macos-latest` builds macOS ARM64 (Apple Silicon); `macos-13` builds macOS x64 (Intel)
+  - `windows-latest` builds Windows x64; `windows-11-arm` builds Windows ARM64
+
 ## [7.3.2] - 2026-03-14
 
 ### Added
