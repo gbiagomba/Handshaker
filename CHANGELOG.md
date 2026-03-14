@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.3.2] - 2026-03-14
+
+### Added
+- `FINDING_INDEX.MD` Section 7: Finding Details — standards enrichment blocks for all 68 findings
+  - CVE references, CWE IDs, OWASP category, WASC identifier, and CVSS vector component explanations
+  - Severity reasoning with industry source citations (NVD, Tenable, RFC references)
+  - Attack prerequisites for each finding
+- Logo image in `README.md` header
+
+### Changed
+- CVSS severity label alignment across `FINDING_INDEX.MD` and `src/findings/catalog.rs`:
+  - **Critical→High**: HS-TLS-PROTOCOL-0002 (SSLv3/8.6), HS-TLS-CIPHER-0002 (aNULL/8.6), HS-TLS-CIPHER-0003 (EXPORT→7.4 after vector fix)
+  - **Critical→kept Critical** with vector corrected: HS-TLS-PROTOCOL-0001 and HS-TLS-CERT-0001 vectors updated to `A:H` (score 9.8)
+  - **Medium→High**: HS-TLS-CIPHER-0005 (SWEET32) vector updated to `AV:N/AC:L/C:H` per CVE-2016-2183 NVD 7.5
+  - **High→Medium** (13 findings): HS-TLS-PROTOCOL-0003, 0007; HS-TLS-CIPHER-0004; HS-TLS-CERT-0005, 0006; HS-TLS-SCENARIO-0002, 0004; HS-SSH-KEX-0101, 0102; HS-SSH-HOSTKEY-0104, 0105; HS-SSH-CIPHER-0107; HS-RDP-TLS-0202
+  - **3.7→4.8** vector updates (add `I:L`): All Medium findings that had `C:L/I:N/A:N` vectors updated to `C:L/I:L/A:N` for score alignment with Medium severity range
+- FINDING_INDEX.MD protocol counts corrected: TLS (48), General (5)
+- Finding statistics updated: Critical 3, High 10, Medium 38, Low 12, Info 5
+
 ## [7.3.1] - 2026-03-13
 
 ### Fixed

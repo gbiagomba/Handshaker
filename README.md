@@ -1,6 +1,10 @@
 # Handshaker
 
-**Version:** v7.2.0 | **Author:** Gilles Biagomba | **License:** GPL-3.0
+<p align="center">
+  <img src="img/Pasted%20image%2020260313184423.png" alt="Handshaker Logo" width="600"/>
+</p>
+
+**Version:** v7.3.2 | **Author:** Gilles Biagomba | **License:** GPL-3.0
 
 Handshaker is a native Rust secure-transport posture engine that probes TLS, SSH, and RDP endpoints without shelling out to external tools. It produces stable, machine-parseable finding IDs, SSL Labs–style grades, CVSS v3.1 risk scores, and supports compliance evaluation, benchmarking, longitudinal diffing, and AI-powered analysis.
 
@@ -12,12 +16,13 @@ Handshaker is a native Rust secure-transport posture engine that probes TLS, SSH
 2. [Installation](#installation)
 3. [Flags](#flags)
 4. [Usage](#usage)
-5. [Testssl-Class Coverage Matrix](#testssl-class-coverage-matrix)
-6. [Running Tests](#running-tests)
-7. [Using Docker](#using-docker)
-8. [Using the Makefile](#using-the-makefile)
-9. [Contributing](#contributing)
-10. [License](#license)
+5. [Finding Reference](#finding-reference)
+6. [Testssl-Class Coverage Matrix](#testssl-class-coverage-matrix)
+7. [Running Tests](#running-tests)
+8. [Using Docker](#using-docker)
+9. [Using the Makefile](#using-the-makefile)
+10. [Contributing](#contributing)
+11. [License](#license)
 
 ---
 
@@ -238,6 +243,25 @@ handshaker db list --path handshaker.db
 
 # Export a specific run as JSON
 handshaker db export --path handshaker.db --run-id <RUN-ID>
+```
+
+---
+
+## Finding Reference
+
+[`FINDING_INDEX.MD`](FINDING_INDEX.MD) is the authoritative reference for all 68 security findings Handshaker can detect. For each finding it lists:
+
+- **ID** — stable identifier in `HS-{PROTOCOL}-{CATEGORY}-{NNNN}` format
+- **Title** and **Severity** (Critical / High / Medium / Low / Info)
+- **CVSS 3.1 score and vector**
+- **Description** — what the finding means and why it matters
+- **Testssl-class mapping** — which [testssl.sh](https://testssl.sh) check category it corresponds to
+- **Policy coverage** — whether it is enforced under Default, PCI-DSS, NIST 800-52r2, or CIS-Like profiles
+
+Quick lookup from the CLI:
+
+```bash
+handshaker explain HS-TLS-PROTOCOL-0003
 ```
 
 ---

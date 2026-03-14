@@ -12,14 +12,14 @@ pub const HS_TLS_PROTOCOL_0001: FindingMeta = FindingMeta {
     impact: "An on-path attacker can exploit legacy protocol weaknesses to break confidentiality and integrity, enabling interception or manipulation of traffic.",
     remediation: "Disable SSLv2 at the server and any upstream TLS termination points. Ensure clients cannot negotiate SSLv2.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
 };
 
 pub const HS_TLS_PROTOCOL_0002: FindingMeta = FindingMeta {
     id: "HS-TLS-PROTOCOL-0002",
     title: "SSLv3 supported",
     protocol: Protocol::Tls,
-    severity: Severity::Critical,
+    severity: Severity::High,
     description: "The service negotiates SSLv3, an obsolete protocol with well-known weaknesses.",
     impact: "Legacy downgrade paths can enable man-in-the-middle attacks and weaken or break confidentiality.",
     remediation: "Disable SSLv3. Permit only TLS 1.2+ (and preferably TLS 1.3).",
@@ -31,7 +31,7 @@ pub const HS_TLS_PROTOCOL_0003: FindingMeta = FindingMeta {
     id: "HS-TLS-PROTOCOL-0003",
     title: "TLS 1.0 enabled",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The service accepts connections using TLS 1.0, a deprecated protocol version.",
     impact: "TLS 1.0 is affected by multiple cryptographic weaknesses and ecosystem deprecations; attackers may leverage downgrade or protocol weaknesses to weaken confidentiality and integrity.",
     remediation: "Disable TLS 1.0 at the service and any TLS termination points. Enforce TLS 1.2+.",
@@ -51,7 +51,7 @@ pub const HS_TLS_PROTOCOL_0004: FindingMeta = FindingMeta {
     impact: "TLS 1.1 lacks support for modern recommended cipher suites and is deprecated by major vendors; allowing it increases downgrade surface and weakens posture.",
     remediation: "Disable TLS 1.1 and enforce TLS 1.2+.",
     references: &["https://www.tenable.com/plugins/nessus/157288"],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_PROTOCOL_0005: FindingMeta = FindingMeta {
@@ -82,7 +82,7 @@ pub const HS_TLS_PROTOCOL_0007: FindingMeta = FindingMeta {
     id: "HS-TLS-PROTOCOL-0007",
     title: "Insecure renegotiation allowed",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The service allows insecure renegotiation.",
     impact: "Insecure renegotiation enables man-in-the-middle protocol injection attacks.",
     remediation: "Disable insecure renegotiation and enable secure renegotiation (RFC 5746).",
@@ -99,7 +99,7 @@ pub const HS_TLS_PROTOCOL_0008: FindingMeta = FindingMeta {
     impact: "Missing secure renegotiation widens compatibility with insecure clients and can weaken posture.",
     remediation: "Enable secure renegotiation (RFC 5746) or upgrade the TLS stack.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_PROTOCOL_0009: FindingMeta = FindingMeta {
@@ -111,7 +111,7 @@ pub const HS_TLS_PROTOCOL_0009: FindingMeta = FindingMeta {
     impact: "TLS compression enables CRIME-style attacks in certain contexts.",
     remediation: "Disable TLS compression.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_PROTOCOL_0010: FindingMeta = FindingMeta {
@@ -124,7 +124,7 @@ pub const HS_TLS_PROTOCOL_0010: FindingMeta = FindingMeta {
         "HTTP/2 requires stronger TLS posture; weak settings can lead to downgrade or exposure.",
     remediation: "Harden TLS settings to meet HTTP/2 security requirements.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CIPHER_0001: FindingMeta = FindingMeta {
@@ -143,7 +143,7 @@ pub const HS_TLS_CIPHER_0002: FindingMeta = FindingMeta {
     id: "HS-TLS-CIPHER-0002",
     title: "Anonymous (aNULL) cipher suite supported",
     protocol: Protocol::Tls,
-    severity: Severity::Critical,
+    severity: Severity::High,
     description: "The service supports anonymous cipher suites without authentication.",
     impact: "Man-in-the-middle attacks are possible due to lack of authentication.",
     remediation: "Disable aNULL cipher suites.",
@@ -155,19 +155,19 @@ pub const HS_TLS_CIPHER_0003: FindingMeta = FindingMeta {
     id: "HS-TLS-CIPHER-0003",
     title: "EXPORT cipher suite supported",
     protocol: Protocol::Tls,
-    severity: Severity::Critical,
+    severity: Severity::High,
     description: "The service supports export-grade cipher suites.",
     impact: "Export-grade ciphers are trivially breakable.",
     remediation: "Disable export cipher suites.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N",
 };
 
 pub const HS_TLS_CIPHER_0004: FindingMeta = FindingMeta {
     id: "HS-TLS-CIPHER-0004",
     title: "RC4 cipher suite supported",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The service supports RC4 cipher suites.",
     impact: "RC4 has known biases that enable plaintext recovery in some contexts.",
     remediation: "Disable RC4 cipher suites.",
@@ -179,12 +179,12 @@ pub const HS_TLS_CIPHER_0005: FindingMeta = FindingMeta {
     id: "HS-TLS-CIPHER-0005",
     title: "3DES cipher suite supported (SWEET32 exposure indicator)",
     protocol: Protocol::Tls,
-    severity: Severity::Medium,
+    severity: Severity::High,
     description: "The service supports 3DES cipher suites.",
     impact: "3DES is vulnerable to SWEET32-style attacks in high-volume contexts.",
     remediation: "Disable 3DES cipher suites.",
     references: &["https://www.tenable.com/plugins/nessus/111649"],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
 };
 
 pub const HS_TLS_CIPHER_0006: FindingMeta = FindingMeta {
@@ -196,7 +196,7 @@ pub const HS_TLS_CIPHER_0006: FindingMeta = FindingMeta {
     impact: "An on-path attacker could exploit BEAST in certain contexts.",
     remediation: "Disable TLS 1.0 or prefer AEAD suites.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CIPHER_0007: FindingMeta = FindingMeta {
@@ -208,7 +208,7 @@ pub const HS_TLS_CIPHER_0007: FindingMeta = FindingMeta {
     impact: "Medium strength ciphers are less resistant to brute force.",
     remediation: "Disable medium strength ciphers.",
     references: &["https://www.tenable.com/plugins/nessus/42873"],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CIPHER_0008: FindingMeta = FindingMeta {
@@ -220,7 +220,7 @@ pub const HS_TLS_CIPHER_0008: FindingMeta = FindingMeta {
     impact: "Lack of AEAD suites can increase exposure to padding oracles.",
     remediation: "Enable AEAD suites such as AES-GCM or ChaCha20-Poly1305.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CIPHER_0009: FindingMeta = FindingMeta {
@@ -232,7 +232,7 @@ pub const HS_TLS_CIPHER_0009: FindingMeta = FindingMeta {
     impact: "If the private key is compromised, past sessions may be decrypted.",
     remediation: "Enable ECDHE/DHE cipher suites.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CIPHER_0010: FindingMeta = FindingMeta {
@@ -244,7 +244,7 @@ pub const HS_TLS_CIPHER_0010: FindingMeta = FindingMeta {
     impact: "Lack of ephemeral key exchange weakens forward secrecy.",
     remediation: "Enable (EC)DHE suites.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0001: FindingMeta = FindingMeta {
@@ -256,7 +256,7 @@ pub const HS_TLS_CERT_0001: FindingMeta = FindingMeta {
     impact: "Clients may reject the connection or be vulnerable to MITM.",
     remediation: "Renew and replace the certificate.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
 };
 
 pub const HS_TLS_CERT_0002: FindingMeta = FindingMeta {
@@ -299,7 +299,7 @@ pub const HS_TLS_CERT_0005: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0005",
     title: "Weak signature algorithm (SHA1)",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The certificate uses a SHA1 signature algorithm.",
     impact: "SHA1 is deprecated due to collision attacks.",
     remediation: "Use SHA-256 or stronger.",
@@ -311,7 +311,7 @@ pub const HS_TLS_CERT_0006: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0006",
     title: "RSA key size < 2048",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The certificate uses an RSA key smaller than 2048 bits.",
     impact: "Short keys are vulnerable to brute force.",
     remediation: "Use RSA 2048+ or ECDSA with strong curves.",
@@ -340,7 +340,7 @@ pub const HS_TLS_CERT_0008: FindingMeta = FindingMeta {
     impact: "Weak public key parameters reduce cryptographic strength.",
     remediation: "Use modern key types and parameters.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0009: FindingMeta = FindingMeta {
@@ -402,7 +402,7 @@ pub const HS_TLS_CIPHER_0011: FindingMeta = FindingMeta {
     impact: "Weak curves reduce the effective security of ECDHE.",
     remediation: "Disable weak curves and prefer modern curves (e.g., X25519, P-256).",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_EXTENSION_0011: FindingMeta = FindingMeta {
@@ -438,7 +438,7 @@ pub const HS_TLS_SCENARIO_0010: FindingMeta = FindingMeta {
     impact: "Downgrade to cleartext may be possible in STARTTLS-based protocols.",
     remediation: "Ensure STARTTLS is enforced and announced for STARTTLS services.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_SCENARIO_0011: FindingMeta = FindingMeta {
@@ -450,7 +450,7 @@ pub const HS_TLS_SCENARIO_0011: FindingMeta = FindingMeta {
     impact: "Opportunistic STARTTLS can be stripped by active attackers.",
     remediation: "Require STARTTLS and enforce TLS-only policy.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CIPHER_0012: FindingMeta = FindingMeta {
@@ -498,14 +498,14 @@ pub const HS_TLS_SCENARIO_0001: FindingMeta = FindingMeta {
     impact: "Lack of TLS_FALLBACK_SCSV can allow downgrade attacks.",
     remediation: "Enable TLS_FALLBACK_SCSV support.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_SCENARIO_0002: FindingMeta = FindingMeta {
     id: "HS-TLS-SCENARIO-0002",
     title: "Accepts forced downgrade to TLS 1.0",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server accepts a forced downgrade to TLS 1.0.",
     impact: "Attackers may force weaker protocol versions.",
     remediation: "Disable TLS 1.0 and support TLS_FALLBACK_SCSV.",
@@ -529,7 +529,7 @@ pub const HS_TLS_SCENARIO_0004: FindingMeta = FindingMeta {
     id: "HS-TLS-SCENARIO-0004",
     title: "Supports weak DH parameters (Logjam-style exposure indicator)",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server supports weak DH parameters.",
     impact: "Weak DH parameters can enable Logjam-style attacks.",
     remediation: "Use strong DH parameters (>=2048 bits) or ECDHE.",
@@ -546,7 +546,7 @@ pub const HS_TLS_SCENARIO_0005: FindingMeta = FindingMeta {
     impact: "High-volume sessions can leak plaintext via SWEET32.",
     remediation: "Disable 3DES.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_SCENARIO_0006: FindingMeta = FindingMeta {
@@ -558,7 +558,7 @@ pub const HS_TLS_SCENARIO_0006: FindingMeta = FindingMeta {
     impact: "BEAST can enable partial plaintext recovery.",
     remediation: "Disable TLS 1.0 or prefer AEAD suites.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_SCENARIO_0007: FindingMeta = FindingMeta {
@@ -570,7 +570,7 @@ pub const HS_TLS_SCENARIO_0007: FindingMeta = FindingMeta {
     impact: "Fragmentation quirks can weaken protections.",
     remediation: "Use modern TLS stacks and disable legacy modes.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_SCENARIO_0008: FindingMeta = FindingMeta {
@@ -582,14 +582,14 @@ pub const HS_TLS_SCENARIO_0008: FindingMeta = FindingMeta {
     impact: "Attackers may steer negotiation to weak ciphers.",
     remediation: "Prefer strong ciphers and disable weak ones.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_SSH_KEX_0101: FindingMeta = FindingMeta {
     id: "HS-SSH-KEX-0101",
     title: "diffie-hellman-group1-sha1 enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server supports diffie-hellman-group1-sha1.",
     impact: "Group1 is weak and vulnerable to logjam-style attacks.",
     remediation: "Disable group1 and use modern KEX algorithms.",
@@ -601,7 +601,7 @@ pub const HS_SSH_KEX_0102: FindingMeta = FindingMeta {
     id: "HS-SSH-KEX-0102",
     title: "diffie-hellman-group-exchange-sha1 enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server supports diffie-hellman-group-exchange-sha1.",
     impact: "SHA1-based KEX is deprecated.",
     remediation: "Use group-exchange-sha256 or curve25519.",
@@ -618,14 +618,14 @@ pub const HS_SSH_KEX_0103: FindingMeta = FindingMeta {
     impact: "SHA1 in KEX is deprecated.",
     remediation: "Disable SHA1-based KEX.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_SSH_HOSTKEY_0104: FindingMeta = FindingMeta {
     id: "HS-SSH-HOSTKEY-0104",
     title: "ssh-rsa (SHA1) hostkey enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server supports ssh-rsa with SHA1 signatures.",
     impact: "SHA1 is deprecated and weak.",
     remediation: "Disable ssh-rsa or enable rsa-sha2-*.",
@@ -637,7 +637,7 @@ pub const HS_SSH_HOSTKEY_0105: FindingMeta = FindingMeta {
     id: "HS-SSH-HOSTKEY-0105",
     title: "RSA hostkey < 2048",
     protocol: Protocol::Ssh,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server presents an RSA hostkey < 2048 bits.",
     impact: "Short RSA keys are weak against brute force.",
     remediation: "Use RSA 2048+ or ECDSA/Ed25519.",
@@ -654,14 +654,14 @@ pub const HS_SSH_CIPHER_0106: FindingMeta = FindingMeta {
     impact: "CBC in SSH can be vulnerable to plaintext recovery in some contexts.",
     remediation: "Use CTR or AEAD modes.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_SSH_CIPHER_0107: FindingMeta = FindingMeta {
     id: "HS-SSH-CIPHER-0107",
     title: "arcfour/RC4 enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server supports RC4/arcfour ciphers.",
     impact: "RC4 is deprecated and insecure.",
     remediation: "Disable RC4.",
@@ -678,7 +678,7 @@ pub const HS_SSH_MAC_0108: FindingMeta = FindingMeta {
     impact: "SHA1-based MACs are deprecated.",
     remediation: "Disable hmac-sha1.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_SSH_MAC_0109: FindingMeta = FindingMeta {
@@ -690,7 +690,7 @@ pub const HS_SSH_MAC_0109: FindingMeta = FindingMeta {
     impact: "UMAC-64 provides reduced integrity strength.",
     remediation: "Use umac-128 or hmac-sha2.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_SSH_CONFIG_0110: FindingMeta = FindingMeta {
@@ -722,7 +722,7 @@ pub const HS_RDP_TLS_0202: FindingMeta = FindingMeta {
     id: "HS-RDP-TLS-0202",
     title: "RDP accepts TLS 1.0",
     protocol: Protocol::Rdp,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "RDP service accepts TLS 1.0.",
     impact: "TLS 1.0 is deprecated and weak.",
     remediation: "Disable TLS 1.0 for RDP.",
@@ -739,7 +739,7 @@ pub const HS_RDP_TLS_0203: FindingMeta = FindingMeta {
     impact: "TLS 1.1 is deprecated.",
     remediation: "Disable TLS 1.1 for RDP.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_RDP_TLS_0204: FindingMeta = FindingMeta {
@@ -763,7 +763,7 @@ pub const HS_RDP_CONFIG_0205: FindingMeta = FindingMeta {
     impact: "Weak ciphers reduce confidentiality.",
     remediation: "Harden RDP TLS cipher suites.",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_GENERAL_CONFIG_0900: FindingMeta = FindingMeta {

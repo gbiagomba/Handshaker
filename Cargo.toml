@@ -1,6 +1,6 @@
 [package]
 name = "handshaker"
-version = "7.3.1"
+version = "7.3.2"
 edition = "2021"
 authors = ["Gilles Biagomba and contributors"]
 license = "GPL-3.0"
