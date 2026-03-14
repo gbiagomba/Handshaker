@@ -186,10 +186,7 @@ pub fn write_manual(cmd: Option<&str>) -> Result<()> {
             writeln!(out)?;
             writeln!(out, "OPTIONS")?;
             writeln!(out, "  -t, --target <HOST>        Single target: hostname, IP, host:port, or URL")?;
-            writeln!(out, "  -f, --file <PATH>          File with one target per line")?;
-            writeln!(out, "      --nmap-grep <PATH>     Path to .gnmap file (nmap -oG output)")?;
-            writeln!(out, "      --nmap-xml <PATH>      Path to nmap XML output (-oX)")?;
-            writeln!(out, "      --nuclei-json <PATH>   Path to nuclei JSONL output")?;
+            writeln!(out, "  -f, --file <PATH>          File input: plain targets, nmap grep/XML, nuclei JSON(L), or testssl JSON")?;
             writeln!(out, "      --stdin                Read targets from stdin (one per line)")?;
             writeln!(out, "  -p, --ports <LIST>         Comma-separated ports (e.g. 443,8443,25)")?;
             writeln!(out, "      --output <FMT>         json|text|table|html|csv|sqlite  [default: json]")?;
@@ -209,7 +206,10 @@ pub fn write_manual(cmd: Option<&str>) -> Result<()> {
             writeln!(out, "  handshaker scan --file hosts.txt --output html --out report.html")?;
             writeln!(out)?;
             writeln!(out, "  # Import targets from nmap XML and save to SQLite")?;
-            writeln!(out, "  handshaker scan --nmap-xml scan.xml --db results.db")?;
+            writeln!(out, "  handshaker scan --file scan.xml --db results.db")?;
+            writeln!(out)?;
+            writeln!(out, "  # Import targets from nuclei JSONL")?;
+            writeln!(out, "  handshaker scan --file nuclei.jsonl")?;
             writeln!(out)?;
             writeln!(out, "  # STARTTLS probe on SMTP port")?;
             writeln!(out, "  handshaker scan --target mail.example.com --ports 25,587")?;

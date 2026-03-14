@@ -31,18 +31,9 @@ pub struct ScanArgs {
     /// Single target: hostname, IP, host:port, or URL
     #[arg(short, long)]
     pub target: Option<String>,
-    /// File with one target per line
+    /// File input: plain targets, nmap grep/XML, nuclei JSON(L), or testssl JSON
     #[arg(short, long)]
     pub file: Option<String>,
-    /// Path to .gnmap file (nmap -oG output)
-    #[arg(long)]
-    pub nmap_grep: Option<String>,
-    /// Path to nmap XML output file (-oX)
-    #[arg(long)]
-    pub nmap_xml: Option<String>,
-    /// Path to nuclei JSONL output file
-    #[arg(long)]
-    pub nuclei_json: Option<String>,
     /// Read targets from stdin (one per line)
     #[arg(long)]
     pub stdin: bool,

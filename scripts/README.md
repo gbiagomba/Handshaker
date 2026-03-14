@@ -17,3 +17,12 @@ Install helpers for Handshaker across platforms.
     - `-Version <tag>`: pin a specific release (e.g., `v0.1.0`).
     - `-UseSource`: force source build.
   - Run locally (PowerShell): `./install.ps1` or `./install.ps1 -Version v0.1.0`
+
+- check_finding_index_sync.py: Verifies `FINDING_INDEX.MD` stays aligned with `src/findings/catalog.rs`.
+  - Checks that every catalog finding appears in both the summary tables and the detailed sections.
+  - Checks severity and CVSS vector equality between source and documentation.
+  - Checks that `FINDING_AUDIT_MATRIX.md` is current.
+  - Run locally: `python3 scripts/check_finding_index_sync.py`
+
+- generate_finding_audit_matrix.py: Regenerates `FINDING_AUDIT_MATRIX.md` from `src/findings/catalog.rs`.
+  - Run locally: `python3 scripts/generate_finding_audit_matrix.py`

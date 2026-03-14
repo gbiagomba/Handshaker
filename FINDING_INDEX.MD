@@ -18,7 +18,7 @@ applicable compliance policy profiles.
 
 | Total | Critical | High | Medium | Low | Info |
 |-------|:--------:|:----:|:------:|:---:|:----:|
-| 68 | 3 | 10 | 38 | 12 | 5 |
+| 68 | 2 | 4 | 33 | 9 | 20 |
 
 ---
 
@@ -29,11 +29,11 @@ applicable compliance policy profiles.
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
 | HS-TLS-PROTOCOL-0001 | SSLv2 supported | Critical | 9.8 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H` | Obsolete protocol with severe cryptographic weaknesses; all data is at risk |
-| HS-TLS-PROTOCOL-0002 | SSLv3 supported | High | 8.6 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N` | SSLv3 is vulnerable to POODLE and other attacks; must be disabled (CVE-2014-3566) |
-| HS-TLS-PROTOCOL-0003 | TLS 1.0 enabled | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | TLS 1.0 is deprecated (PCI-DSS 3.2+) and lacks modern cipher support |
-| HS-TLS-PROTOCOL-0004 | TLS 1.1 enabled | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | TLS 1.1 lacks AEAD suites and is deprecated by RFC 8996 |
+| HS-TLS-PROTOCOL-0002 | SSLv3 supported | High | 8.6 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L` | SSLv3 is vulnerable to POODLE and other attacks; must be disabled (CVE-2014-3566) |
+| HS-TLS-PROTOCOL-0003 | TLS 1.0 enabled | Medium | 6.5 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N` | TLS 1.0 is deprecated (PCI-DSS 3.2+) and lacks modern cipher support |
+| HS-TLS-PROTOCOL-0004 | TLS 1.1 enabled | Medium | 6.5 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N` | TLS 1.1 lacks AEAD suites and is deprecated by RFC 8996 |
 | HS-TLS-PROTOCOL-0005 | TLS 1.2 not supported | High | 7.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L` | Absence of TLS 1.2 forces clients onto weaker legacy protocol versions |
-| HS-TLS-PROTOCOL-0006 | TLS 1.3 not supported | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | TLS 1.3 removes legacy features and provides 0-RTT; its absence is a missed hardening opportunity |
+| HS-TLS-PROTOCOL-0006 | TLS 1.3 not supported | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | TLS 1.3 removes legacy features and provides 0-RTT; its absence is a missed hardening opportunity |
 | HS-TLS-PROTOCOL-0007 | Insecure renegotiation allowed | Medium | 6.5 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N` | Insecure renegotiation enables injection of plaintext by an active MITM (CVE-2009-3555) |
 | HS-TLS-PROTOCOL-0008 | Secure renegotiation not supported | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Without RFC 5746, clients fall back to insecure renegotiation |
 | HS-TLS-PROTOCOL-0009 | TLS compression enabled (CRIME) | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | TLS-layer compression enables the CRIME attack to recover secrets from encrypted streams |
@@ -44,7 +44,7 @@ applicable compliance policy profiles.
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
 | HS-TLS-CIPHER-0001 | NULL cipher suite | Critical | 9.8 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H` | No encryption; all traffic transmitted in cleartext and trivially intercepted or modified |
-| HS-TLS-CIPHER-0002 | Anonymous (aNULL) cipher | High | 8.6 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N` | No server authentication; any attacker can impersonate the server without a certificate |
+| HS-TLS-CIPHER-0002 | Anonymous (aNULL) cipher | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | No server authentication; any attacker can impersonate the server without a certificate |
 | HS-TLS-CIPHER-0003 | EXPORT cipher suite | High | 7.4 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:H/A:N` | 40/56-bit export-grade ciphers are trivially breakable with modern hardware (FREAK — CVE-2015-0204) |
 | HS-TLS-CIPHER-0004 | RC4 cipher suite | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | RC4 has well-documented statistical biases that allow plaintext recovery in high-volume sessions |
 | HS-TLS-CIPHER-0005 | 3DES cipher (SWEET32) | High | 7.5 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N` | 3DES uses 64-bit blocks; birthday attacks after ~32 GB of traffic can recover plaintext (CVE-2016-2183) |
@@ -54,25 +54,25 @@ applicable compliance policy profiles.
 | HS-TLS-CIPHER-0009 | No forward secrecy suites | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Static RSA key exchange means compromise of the private key allows decryption of all recorded past sessions |
 | HS-TLS-CIPHER-0010 | Legacy RSA key exchange | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Non-ephemeral RSA exchange provides no forward secrecy; sessions can be retroactively decrypted |
 | HS-TLS-CIPHER-0011 | Weak elliptic curve supported | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Small or weak curves (e.g. secp192r1) reduce the effective security of ECDHE key exchange |
-| HS-TLS-CIPHER-0012 | No ChaCha20-Poly1305 | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Absence of ChaCha20 limits cipher agility and degrades performance on non-AES-NI hardware |
+| HS-TLS-CIPHER-0012 | No ChaCha20-Poly1305 | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Absence of ChaCha20 limits cipher agility and degrades performance on non-AES-NI hardware |
 
 ### 1.3 Certificate (13) — `HS-TLS-CERT-0001..0013`
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-TLS-CERT-0001 | Certificate expired | Critical | 9.8 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H` | An expired certificate cannot be trusted; compliant clients reject the connection, causing outage |
-| HS-TLS-CERT-0002 | Certificate not yet valid | High | 8.6 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N` | Certificate validity has not started; indicates misconfiguration or clock skew |
-| HS-TLS-CERT-0003 | Self-signed certificate | High | 8.6 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N` | No third-party CA validates identity; any attacker can present a matching self-signed cert (MITM) |
-| HS-TLS-CERT-0004 | Hostname mismatch (SAN/CN) | High | 8.6 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N` | The certificate does not cover the hostname being connected to; RFC 6125 validation fails |
-| HS-TLS-CERT-0005 | Weak signature algorithm (SHA1) | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | SHA-1 is cryptographically broken (SHAttered); certificates must use SHA-256 or stronger |
-| HS-TLS-CERT-0006 | RSA key < 2048 bits | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | Keys shorter than 2048 bits are factorable with commodity hardware; NIST SP 800-131A requires ≥2048 |
-| HS-TLS-CERT-0007 | Incomplete certificate chain | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Missing intermediate CAs prevent path validation; strict clients may reject the connection |
-| HS-TLS-CERT-0008 | Weak public key type/params | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Non-standard key parameters or deprecated key types reduce effective cryptographic strength |
-| HS-TLS-CERT-0009 | Long-lived certificate validity | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Certificates valid for >398 days extend the window of exposure following a key compromise |
-| HS-TLS-CERT-0010 | OCSP stapling not supported | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Without stapling, clients must contact the CA OCSP responder in-band, leaking connection metadata |
-| HS-TLS-CERT-0011 | OCSP Must-Staple missing | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Without the Must-Staple extension, clients cannot enforce that stapled OCSP responses are provided |
-| HS-TLS-CERT-0012 | Certificate transparency SCT missing | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | No Signed Certificate Timestamps; cert cannot be audited via Certificate Transparency logs (Chrome policy) |
-| HS-TLS-CERT-0013 | RSA key below 3072 bits | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | NIST recommends ≥3072-bit RSA post-2030; informational for forward-looking compliance postures |
+| HS-TLS-CERT-0001 | Certificate expired | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | An expired certificate cannot be trusted; compliant clients reject the connection, causing outage |
+| HS-TLS-CERT-0002 | Certificate not yet valid | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Certificate validity has not started; indicates misconfiguration or clock skew |
+| HS-TLS-CERT-0003 | Self-signed certificate | Medium | 6.5 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N` | No third-party CA validates identity; any attacker can present a matching self-signed cert (MITM) |
+| HS-TLS-CERT-0004 | Hostname mismatch (SAN/CN) | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | The certificate does not cover the hostname being connected to; RFC 6125 validation fails |
+| HS-TLS-CERT-0005 | Weak signature algorithm (SHA1) | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | SHA-1 is cryptographically broken (SHAttered); certificates must use SHA-256 or stronger |
+| HS-TLS-CERT-0006 | RSA key < 2048 bits | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | Keys shorter than 2048 bits are factorable with commodity hardware; NIST SP 800-131A requires ≥2048 |
+| HS-TLS-CERT-0007 | Incomplete certificate chain | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | Missing intermediate CAs prevent path validation; strict clients may reject the connection |
+| HS-TLS-CERT-0008 | Weak public key type/params | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | Non-standard key parameters or deprecated key types reduce effective cryptographic strength |
+| HS-TLS-CERT-0009 | Long-lived certificate validity | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Certificates valid for >398 days extend the window of exposure following a key compromise |
+| HS-TLS-CERT-0010 | OCSP stapling not supported | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Without stapling, clients must contact the CA OCSP responder in-band, leaking connection metadata |
+| HS-TLS-CERT-0011 | OCSP Must-Staple missing | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Without the Must-Staple extension, clients cannot enforce that stapled OCSP responses are provided |
+| HS-TLS-CERT-0012 | Certificate transparency SCT missing | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | No Signed Certificate Timestamps; cert cannot be audited via Certificate Transparency logs (Chrome policy) |
+| HS-TLS-CERT-0013 | RSA key below 3072 bits | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | NIST recommends ≥3072-bit RSA post-2030; informational for forward-looking compliance postures |
 
 ### 1.4 Scenario (11) — `HS-TLS-SCENARIO-0001..0011`
 
@@ -80,13 +80,13 @@ applicable compliance policy profiles.
 |----|-------|----------|:----------:|-------------|-------------|
 | HS-TLS-SCENARIO-0001 | No TLS_FALLBACK_SCSV | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Without FALLBACK_SCSV (RFC 7507), an active attacker can force a version downgrade by interfering with ClientHello |
 | HS-TLS-SCENARIO-0002 | Forced downgrade to TLS 1.0 | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Server accepts a forged low-version ClientHello despite advertising higher protocol support |
-| HS-TLS-SCENARIO-0003 | Session tickets without rotation | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Static TLS session ticket keys undermine forward secrecy; compromise of the key decrypts all resumable sessions |
-| HS-TLS-SCENARIO-0004 | Weak DH parameters (Logjam) | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | 512/768/1024-bit DH parameters are susceptible to precomputation attacks (Logjam, CVE-2015-4000) |
+| HS-TLS-SCENARIO-0003 | Session tickets without rotation | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Static TLS session ticket keys undermine forward secrecy; compromise of the key decrypts all resumable sessions |
+| HS-TLS-SCENARIO-0004 | Weak DH parameters (Logjam) | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N` | 512/768/1024-bit DH parameters are susceptible to precomputation attacks (Logjam, CVE-2015-4000) |
 | HS-TLS-SCENARIO-0005 | SWEET32 exposure | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | High-volume TLS sessions using 3DES hit the 64-bit birthday bound after ~32 GB, leaking plaintext blocks |
 | HS-TLS-SCENARIO-0006 | BEAST exposure (TLS1.0 + CBC) | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | TLS 1.0 CBC mode with predictable IVs enables the BEAST chosen-plaintext attack against session cookies |
 | HS-TLS-SCENARIO-0007 | Insecure record fragmentation | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Non-standard record fragmentation may bypass IDS/firewall inspection or trigger implementation bugs |
 | HS-TLS-SCENARIO-0008 | Weak cipher preference (server) | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | Server selects a weak cipher when both strong and weak options are offered by the client |
-| HS-TLS-SCENARIO-0009 | TLS 1.3 0-RTT enabled | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | 0-RTT data lacks replay protection; applications must handle replayed early data to prevent logical attacks |
+| HS-TLS-SCENARIO-0009 | TLS 1.3 0-RTT enabled | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | 0-RTT data lacks replay protection; applications must handle replayed early data to prevent logical attacks |
 | HS-TLS-SCENARIO-0010 | STARTTLS downgrade possible | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | An active MITM can strip the STARTTLS offer, forcing cleartext communication on SMTP/IMAP/POP3 |
 | HS-TLS-SCENARIO-0011 | STARTTLS without policy | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | No MTA-STS/DANE/STARTTLS policy allows opportunistic cleartext fallback on email delivery |
 
@@ -94,8 +94,8 @@ applicable compliance policy profiles.
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-TLS-EXTENSION-0011 | ALPN hardening missing for HTTP/2 | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Server offers HTTP/2 via ALPN alongside weak TLS settings; RFC 7540 §9.2 cipher restrictions may be violated |
-| HS-TLS-EXTENSION-0012 | ALPN not advertised | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Without ALPN the server cannot negotiate HTTP/2 or other modern application protocols in the TLS handshake |
+| HS-TLS-EXTENSION-0011 | ALPN hardening missing for HTTP/2 | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Server offers HTTP/2 via ALPN alongside weak TLS settings; RFC 7540 §9.2 cipher restrictions may be violated |
+| HS-TLS-EXTENSION-0012 | ALPN not advertised | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Without ALPN the server cannot negotiate HTTP/2 or other modern application protocols in the TLS handshake |
 
 ---
 
@@ -105,36 +105,36 @@ applicable compliance policy profiles.
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-SSH-KEX-0101 | diffie-hellman-group1-sha1 | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | 768/1024-bit Group 1 DH is equivalent to Logjam-vulnerable TLS; session keys are at risk of precomputation |
-| HS-SSH-KEX-0102 | diffie-hellman-group-exchange-sha1 | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | SHA-1 based group exchange is deprecated by IETF; use curve25519-sha256 or ecdh-sha2-nistp256 |
-| HS-SSH-KEX-0103 | gss-* SHA1 KEX enabled | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | GSSAPI key exchange using SHA-1 as the hash is deprecated; SHA-256 variants should be required |
+| HS-SSH-KEX-0101 | diffie-hellman-group1-sha1 | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | 768/1024-bit Group 1 DH is equivalent to Logjam-vulnerable TLS; session keys are at risk of precomputation |
+| HS-SSH-KEX-0102 | diffie-hellman-group-exchange-sha1 | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | SHA-1 based group exchange is deprecated by IETF; use curve25519-sha256 or ecdh-sha2-nistp256 |
+| HS-SSH-KEX-0103 | gss-* SHA1 KEX enabled | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | GSSAPI key exchange using SHA-1 as the hash is deprecated; SHA-256 variants should be required |
 
 ### 2.2 Host Key (2) — `HS-SSH-HOSTKEY-0104..0105`
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-SSH-HOSTKEY-0104 | ssh-rsa (SHA1) hostkey | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | RSA host keys signed with SHA-1 are deprecated; clients should require rsa-sha2-256/512 or Ed25519 |
-| HS-SSH-HOSTKEY-0105 | RSA hostkey < 2048 bits | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | RSA host keys below 2048 bits are factorable with modern hardware; minimum 3072 bits recommended (NIST) |
+| HS-SSH-HOSTKEY-0104 | ssh-rsa (SHA1) hostkey | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | RSA host keys signed with SHA-1 are deprecated; clients should require rsa-sha2-256/512 or Ed25519 |
+| HS-SSH-HOSTKEY-0105 | RSA hostkey < 2048 bits | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | RSA host keys below 2048 bits are factorable with modern hardware; minimum 3072 bits recommended (NIST) |
 
 ### 2.3 Cipher (2) — `HS-SSH-CIPHER-0106..0107`
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-SSH-CIPHER-0106 | CBC ciphers enabled | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | SSH CBC mode is vulnerable to plaintext recovery via a padding oracle when combined with certain implementation flaws |
+| HS-SSH-CIPHER-0106 | CBC ciphers enabled | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | SSH CBC mode is vulnerable to plaintext recovery via a padding oracle when combined with certain implementation flaws |
 | HS-SSH-CIPHER-0107 | arcfour/RC4 cipher enabled | Medium | 5.9 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N` | RC4 (arcfour) is cryptographically broken with known keystream biases; prohibited by RFC 8758 |
 
 ### 2.4 MAC (2) — `HS-SSH-MAC-0108..0109`
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-SSH-MAC-0108 | hmac-sha1 enabled | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | HMAC-SHA1 is deprecated for integrity; use hmac-sha2-256 or hmac-sha2-512 per current SSH hardening guides |
-| HS-SSH-MAC-0109 | umac-64 enabled | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | UMAC-64 provides only 64-bit tags; umac-128 or HMAC-SHA2 variants provide stronger integrity guarantees |
+| HS-SSH-MAC-0108 | hmac-sha1 enabled | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | HMAC-SHA1 is deprecated for integrity; use hmac-sha2-256 or hmac-sha2-512 per current SSH hardening guides |
+| HS-SSH-MAC-0109 | umac-64 enabled | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N` | UMAC-64 provides only 64-bit tags; umac-128 or HMAC-SHA2 variants provide stronger integrity guarantees |
 
 ### 2.5 Config (1) — `HS-SSH-CONFIG-0110`
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-SSH-CONFIG-0110 | SSH banner exposes legacy version | Low | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Advertising SSH-1.x or an old OpenSSH version enables targeted exploit enumeration based on known CVEs |
+| HS-SSH-CONFIG-0110 | SSH banner exposes legacy version | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Advertising SSH-1.x or an old OpenSSH version enables targeted exploit enumeration based on known CVEs |
 
 ---
 
@@ -144,16 +144,16 @@ applicable compliance policy profiles.
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-RDP-TLS-0201 | RDP does not require NLA | High | 7.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L` | Without Network Level Authentication, RDP presents a full Windows login screen pre-authentication, exposing it to credential spray and pre-auth exploits (e.g. BlueKeep) |
+| HS-RDP-TLS-0201 | RDP does not require NLA | Medium | 4.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:N/A:N` | Without Network Level Authentication, RDP presents a full Windows login screen pre-authentication, exposing it to credential spray and pre-auth exploits (e.g. BlueKeep) |
 | HS-RDP-TLS-0202 | RDP accepts TLS 1.0 | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | TLS 1.0 in RDP is deprecated; subject to the same BEAST and downgrade risks as in HTTPS |
 | HS-RDP-TLS-0203 | RDP accepts TLS 1.1 | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | TLS 1.1 is deprecated by RFC 8996; RDP should require TLS 1.2+ |
-| HS-RDP-TLS-0204 | RDP certificate invalid/expired | High | 8.6 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N` | An invalid or expired RDP certificate cannot authenticate the server identity; MITM trivially possible |
+| HS-RDP-TLS-0204 | RDP certificate invalid/expired | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | An invalid or expired RDP certificate cannot authenticate the server identity; MITM trivially possible |
 
 ### 3.2 Config (1) — `HS-RDP-CONFIG-0205`
 
 | ID | Title | Severity | CVSS Score | CVSS Vector | Description |
 |----|-------|----------|:----------:|-------------|-------------|
-| HS-RDP-CONFIG-0205 | RDP weak cipher suites | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | RDP negotiated cipher suites below FIPS 140-2 level; encryption strength inadequate for sensitive sessions |
+| HS-RDP-CONFIG-0205 | RDP weak cipher suites | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N` | RDP negotiated cipher suites below FIPS 140-2 level; encryption strength inadequate for sensitive sessions |
 
 ---
 
@@ -321,7 +321,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-PROTOCOL-0002 — SSLv3 Supported
 
-**Severity:** High | **CVSS Score:** 8.6 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N`
+**Severity:** High | **CVSS Score:** 8.6 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L`
 
 **CVE References:** CVE-2014-3566 (POODLE)
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -334,8 +334,8 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 - PR:N — No privileges required
 - UI:N — No user interaction required
 - C:H — Confidentiality fully compromised via POODLE decryption
-- I:H — Integrity fully compromised via CBC padding oracle manipulation
-- A:N — Service remains available
+- I:L — Integrity impact is limited to negotiated-session tampering or downgrade-assisted manipulation
+- A:L — Some compliant clients will fail closed, creating limited availability impact
 
 **Severity Reasoning:** SSLv3 is broken by the POODLE attack (CVE-2014-3566), allowing an active MITM to decrypt cookies and session tokens via adaptive chosen-ciphertext. NVD rates POODLE at 3.1 (specific exploit path), but the protocol weakness itself warrants High as it enables full session hijacking. Tenable Plugin 58571 rates as High.
 
@@ -348,7 +348,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-PROTOCOL-0003 — TLS 1.0 Enabled
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Medium | **CVSS Score:** 6.5 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N`
 
 **CVE References:** CVE-2011-3389 (BEAST)
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -358,7 +358,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 **CVSS Vector Explanation:**
 - AV:N — Network exploitable
 - AC:H — High complexity; requires specific conditions (JavaScript injection + CBC ciphers)
-- C:L — Partial confidentiality impact (session cookie recovery in narrow conditions)
+- C:H — Strong confidentiality impact because deprecated TLS 1.0 commonly exposes sessions to downgrade and legacy-cipher attacks
 - I:L — Partial integrity impact (downgrade to weaker cipher suites possible)
 - A:N — Service remains available
 
@@ -373,7 +373,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-PROTOCOL-0004 — TLS 1.1 Enabled
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Medium | **CVSS Score:** 6.5 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N`
 
 **CVE References:** RFC 8996 (deprecation)
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -383,7 +383,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 **CVSS Vector Explanation:**
 - AV:N — Network exploitable
 - AC:H — Exploitation requires active downgrade attack
-- C:L — Partial confidentiality impact via downgrade to weaker cipher suites
+- C:H — Strong confidentiality impact via downgrade to weaker cipher suites
 - I:L — Partial integrity impact
 - A:N — Service available
 
@@ -418,7 +418,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-PROTOCOL-0006 — TLS 1.3 Not Supported
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None
 **CWE:** CWE-326 (informational — missed hardening)
@@ -427,7 +427,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 **CVSS Vector Explanation:**
 - C:N / I:N / A:N — No direct impact; scored 0.0
 
-**Severity Reasoning:** TLS 1.3 support is best practice (removes CBC, RSA key exchange, compression, and renegotiation) but its absence alone is not exploitable. Rated Low/informational per industry consensus.
+**Severity Reasoning:** TLS 1.3 support is best practice (removes CBC, RSA key exchange, compression, and renegotiation) but its absence alone is not exploitable. Rated informational per industry consensus.
 
 **Attack Prerequisites:** None (informational finding only)
 
@@ -547,7 +547,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CIPHER-0002 — Anonymous (aNULL) Cipher Suite
 
-**Severity:** High | **CVSS Score:** 8.6 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N`
+**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
 
 **CVE References:** None (configuration vulnerability)
 **CWE:** CWE-345 (Insufficient Verification of Data Authenticity), CWE-306
@@ -555,11 +555,12 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 **WASC:** WASC-4 – Insufficient Transport Layer Protection
 
 **CVSS Vector Explanation:**
-- AC:L — Trivial; no certificate needed for impersonation
-- C:H / I:H — Full compromise via MITM with no certificate verification
-- A:N — Service remains available (attacker proxies traffic)
+- AC:H — Exploitation still requires an active MITM and a client stack willing to negotiate aNULL
+- C:H — Confidentiality can be fully compromised by an active MITM
+- I:N — The industry baseline usually scores this as confidentiality-focused rather than broad integrity loss
+- A:N — Service generally remains available
 
-**Severity Reasoning:** aNULL cipher suites authenticate neither party. Any attacker can impersonate the server or intercept the session entirely. While encryption exists, without authentication it provides no security. Downgraded from Critical to High because the exploit still requires an active MITM (not passive sniffing alone).
+**Severity Reasoning:** aNULL cipher suites authenticate neither party. Any attacker can impersonate the server or intercept the session entirely. While encryption exists, without authentication it provides no security. Downgraded from Critical to High because the exploit still requires an active MITM (not passive sniffing alone). Tenable classifies anonymous cipher-suite support in the Medium range, which is why the calibrated CVSS vector is now less aggressive than the original estimate.
 
 **Attack Prerequisites:**
 - Active MITM network position
@@ -765,7 +766,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CIPHER-0012 — No ChaCha20-Poly1305 Suites
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None
 **CWE:** CWE-326 (informational)
@@ -779,7 +780,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0001 — Certificate Expired
 
-**Severity:** Critical | **CVSS Score:** 9.8 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H`
+**Severity:** Medium | **CVSS Score:** 5.3 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N`
 
 **CVE References:** None (operational issue)
 **CWE:** CWE-295 (Improper Certificate Validation)
@@ -788,11 +789,11 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 **CVSS Vector Explanation:**
 - AC:L — No special conditions; certificate is verifiably expired
-- C:H — MITM attacks trivially possible; confidentiality fully compromised
-- I:H — Data integrity fully compromised via MITM
-- A:H — Strict clients (browsers, mobile apps) refuse connections, causing outage
+- C:N — Most scanner baselines treat this primarily as a trust/availability defect rather than direct data disclosure
+- I:L — Users who bypass warnings can be exposed to impersonation or modified content
+- A:N — Availability impact is operational, but not usually encoded in the base score
 
-**Severity Reasoning:** An expired certificate is both a MITM enabler (browsers warn users who may bypass) and a direct availability issue (strict clients reject). Availability impact added per CERT guidance on certificate expiry causing service outages.
+**Severity Reasoning:** An expired certificate is both a MITM enabler (browsers warn users who may bypass) and a direct availability issue (strict clients reject). Availability impact added per CERT guidance on certificate expiry causing service outages. Nessus-class scanners usually score this family as Medium rather than Critical, so the calibrated vector now reflects the vendor baseline while preserving the original operational concern.
 
 **Attack Prerequisites:**
 - Network MITM position (optional; users may bypass browser warnings voluntarily)
@@ -802,17 +803,17 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0002 — Certificate Not Yet Valid
 
-**Severity:** High | **CVSS Score:** 8.6 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None (misconfiguration)
 **CWE:** CWE-295 (Improper Certificate Validation)
 **OWASP:** A07:2021 – Identification and Authentication Failures
 
 **CVSS Vector Explanation:**
-- AC:L — Certificate validity failure is deterministic
-- C:H / I:H — MITM trivially possible; clients may bypass validation errors
+- AC:H — This is usually an operational or clock-skew issue, not a broadly exploitable condition
+- C:N / I:N / A:N — Major scanners generally treat it as informational unless paired with a demonstrated trust-bypass path
 
-**Severity Reasoning:** A "not yet valid" certificate indicates clock skew, deployment error, or intentional misconfiguration. Clients that bypass the warning are exposed to MITM. Less severe than expired (no A:H) because this is typically resolved quickly once discovered.
+**Severity Reasoning:** A "not yet valid" certificate indicates clock skew, deployment error, or intentional misconfiguration. Clients that bypass the warning are exposed to MITM. Less severe than expired (no A:H) because this is typically resolved quickly once discovered. Nessus commonly treats this condition as informational when observed in isolation, so the calibrated score now reflects that vendor posture.
 
 **Attack Prerequisites:**
 - Network MITM position
@@ -822,7 +823,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0003 — Self-Signed Certificate
 
-**Severity:** High | **CVSS Score:** 8.6 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N`
+**Severity:** Medium | **CVSS Score:** 6.5 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N`
 
 **CVE References:** None (configuration issue)
 **CWE:** CWE-295 (Improper Certificate Validation), CWE-297 (Improper Validation of Certificate with Host Mismatch)
@@ -830,9 +831,11 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 **CVSS Vector Explanation:**
 - AC:L — No CA validation; any attacker can generate a matching self-signed cert
-- C:H / I:H — Full MITM possible once user bypasses or trusts cert
+- C:L — Exposure depends on the client accepting or pinning the self-signed certificate
+- I:L — Integrity impact is likewise conditional on warning bypass
+- A:N — Availability is not usually encoded in the base score
 
-**Severity Reasoning:** Self-signed certificates in public contexts provide no third-party identity validation. Any attacker can present a self-signed cert for the same domain, enabling trivial MITM once users are conditioned to accept certificate warnings.
+**Severity Reasoning:** Self-signed certificates in public contexts provide no third-party identity validation. Any attacker can present a self-signed cert for the same domain, enabling trivial MITM once users are conditioned to accept certificate warnings. Nessus-style scanner results typically keep this in the Medium range, which aligns with the adjusted vector.
 
 **Attack Prerequisites:**
 - Generate a self-signed certificate for the target domain
@@ -842,17 +845,17 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0004 — Hostname Mismatch (SAN/CN)
 
-**Severity:** High | **CVSS Score:** 8.6 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None (configuration issue)
 **CWE:** CWE-297 (Improper Validation of Certificate with Host Mismatch)
 **OWASP:** A07:2021 – Identification and Authentication Failures
 
 **CVSS Vector Explanation:**
-- AC:L — Any compliant client will detect the mismatch; attackers need no special capability
-- C:H / I:H — MITM possible via a cert for the actual hostname served by the attacker
+- AC:H — The mismatch is generally a validation or deployment issue rather than an independently exploitable network flaw
+- C:N / I:N / A:N — Major scanner baselines commonly treat this as informational unless there is a demonstrated trust-bypass scenario
 
-**Severity Reasoning:** RFC 6125 mandates hostname validation. A mismatch means the certificate does not prove server identity for the accessed hostname, enabling MITM by anyone with a valid cert for the correct hostname.
+**Severity Reasoning:** RFC 6125 mandates hostname validation. A mismatch means the certificate does not prove server identity for the accessed hostname, enabling MITM by anyone with a valid cert for the correct hostname. Nessus commonly treats hostname mismatch as informational when there is no demonstrated trust-bypass path, so the adjusted score reflects that narrower scanner baseline.
 
 **Attack Prerequisites:**
 - Obtain a valid certificate for the accessed hostname (via CA, Let's Encrypt, etc.)
@@ -862,18 +865,19 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0005 — Weak Signature Algorithm (SHA-1)
 
-**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
+**Severity:** Medium | **CVSS Score:** 5.3 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N`
 
 **CVE References:** CVE-2019-14855 (GnuTLS SHA-1 collision); Google SHAttered (2017)
 **CWE:** CWE-327 (Use of a Broken or Risky Cryptographic Algorithm)
 **OWASP:** A02:2021 – Cryptographic Failures
 
 **CVSS Vector Explanation:**
-- AC:H — SHA-1 collision attack requires significant computational resources (~$100K in 2023)
-- C:H — Successful collision forges a trusted certificate, enabling full MITM
-- I:N / A:N — No direct integrity or availability impact beyond the forgery
+- AC:L — Vendor baselines often treat deprecated SHA-1 certificate use as a broadly reachable trust issue once present
+- C:N — Exposure is mostly tied to trust degradation rather than direct disclosure from the finding alone
+- I:L — A successful forgery scenario affects authenticity/integrity
+- A:N — No direct availability impact
 
-**Severity Reasoning:** SHA-1 collision attacks are demonstrated (Google SHAttered, 2017). NVD rates related CVEs around 5.9 Medium. The attack cost is high but non-trivial for nation-states or well-funded adversaries. Major browsers reject SHA-1 certificates.
+**Severity Reasoning:** SHA-1 collision attacks are demonstrated (Google SHAttered, 2017). NVD rates related CVEs around 5.9 Medium. The attack cost is high but non-trivial for nation-states or well-funded adversaries. Major browsers reject SHA-1 certificates. Tenable keeps comparable SHA-1 certificate findings in the Medium range, so the revised vector preserves the original concern while aligning with vendor scoring.
 
 **Attack Prerequisites:**
 - Significant computational resources (~$100K cloud budget for chosen-prefix collision)
@@ -884,7 +888,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0006 — RSA Key Size < 2048 Bits
 
-**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** NIST SP 800-131A Rev 2 (deprecation)
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -892,9 +896,10 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 **CVSS Vector Explanation:**
 - AC:H — Factoring 1024-bit RSA requires significant distributed compute
-- C:H — Private key recovery enables decryption of all sessions and signing of fraudulent certs
+- C:L — The risk is real but generally treated by vendors as low because exploitation cost is still high for sub-2048-bit keys
+- I:N / A:N — No immediate integrity or availability impact absent successful key recovery
 
-**Severity Reasoning:** 1024-bit RSA keys are factorable with dedicated hardware (~$1M, 2024 estimates). NIST SP 800-131A prohibits RSA < 2048 after 2013. Tenable and industry rate this as Medium. High confidentiality impact once key is factored.
+**Severity Reasoning:** 1024-bit RSA keys are factorable with dedicated hardware (~$1M, 2024 estimates). NIST SP 800-131A prohibits RSA < 2048 after 2013. Tenable and industry rate this as Medium. High confidentiality impact once key is factored. Vendor scanner write-ups are often more conservative for simple key-length findings, so the calibrated CVSS vector now reflects a Low score while preserving the original rationale.
 
 **Attack Prerequisites:**
 - Capture server certificate (public key) from TLS handshake
@@ -904,15 +909,17 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0007 — Incomplete Certificate Chain
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Medium | **CVSS Score:** 5.3 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N`
 
 **CVE References:** None
 **CWE:** CWE-295 (Improper Certificate Validation)
 **OWASP:** A07:2021 – Identification and Authentication Failures
 
 **CVSS Vector Explanation:**
-- AC:H — Exploitation requires client that does not cache intermediate CAs
-- C:L / I:L — Partial MITM risk for clients that fail to validate incomplete chains
+- AC:L — Broken path validation is immediately observable to affected clients
+- C:N — The issue is usually trust/validation failure, not direct confidentiality loss
+- I:L — Integrity/authenticity is degraded when users or clients proceed despite chain problems
+- A:N — Availability effects are operational rather than encoded in the base score
 
 **Severity Reasoning:** Clients that cannot complete chain validation may accept the certificate without full verification or reject it, causing availability issues. Mozilla Firefox and some mobile clients strictly require the complete chain.
 
@@ -924,11 +931,17 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0008 — Weak Public Key Type/Params
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Medium | **CVSS Score:** 5.3 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N`
 
 **CVE References:** None specific
 **CWE:** CWE-326 (Inadequate Encryption Strength)
 **OWASP:** A02:2021 – Cryptographic Failures
+
+**CVSS Vector Explanation:**
+- AC:L — Weak key parameters are directly reachable once deployed
+- C:N — This is usually a trust-strength problem rather than immediate disclosure
+- I:L — Authenticity/integrity can be weakened if the parameters are practically attackable
+- A:N — No direct availability impact
 
 **Severity Reasoning:** Non-standard or deprecated key types (DSA-512, RSA with small exponent, weak ECC parameters) reduce cryptographic strength below NIST recommendations. Impact depends on specific weakness.
 
@@ -940,7 +953,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0009 — Long-Lived Certificate Validity
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** CA/Browser Forum Ballot SC-22 (398-day limit)
 **CWE:** CWE-298 (Improper Validation of Certificate Expiration)
@@ -954,7 +967,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0010 — OCSP Stapling Not Supported
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None
 **CWE:** CWE-299 (Improper Check for Certificate Revocation)
@@ -968,7 +981,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0011 — OCSP Must-Staple Missing
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** RFC 7633 (TLS Feature extension)
 **CWE:** CWE-299 (Improper Check for Certificate Revocation)
@@ -982,7 +995,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0012 — Certificate Transparency SCT Missing
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None; Chrome CT Policy
 **CWE:** CWE-295 (Improper Certificate Validation)
@@ -996,7 +1009,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0013 — RSA Key Below 3072 Bits
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** NIST SP 800-131A Rev 2 (post-2030 guidance)
 **CWE:** CWE-326 (Inadequate Encryption Strength — forward-looking)
@@ -1046,7 +1059,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-SCENARIO-0003 — Session Tickets Without Rotation
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None specific
 **CWE:** CWE-311 (Missing Encryption of Sensitive Data — key rotation)
@@ -1060,7 +1073,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-SCENARIO-0004 — Weak DH Parameters (Logjam)
 
-**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N`
 
 **CVE References:** CVE-2015-4000 (Logjam)
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -1068,9 +1081,10 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 **CVSS Vector Explanation:**
 - AC:H — Precomputation of DH discrete log requires nation-state-level resources for 1024-bit
-- C:H — Full session decryption once precomputation complete
+- C:N — NVD’s baseline for Logjam-style exposure is conservative because the finding is mostly an exposure indicator
+- I:L — Integrity/authenticity can be weakened once downgrade or discrete-log conditions are met
 
-**Severity Reasoning:** CVE-2015-4000 (Logjam) shows that state-level actors can precompute discrete logs for standard 1024-bit DH groups, enabling passive decryption. NVD rates at 3.7 Low for the specific attack, but 5.9 is appropriate for the systemic risk. NIST requires DH ≥ 2048 bits.
+**Severity Reasoning:** CVE-2015-4000 (Logjam) shows that state-level actors can precompute discrete logs for standard 1024-bit DH groups, enabling passive decryption. NVD rates at 3.7 Low for the specific attack, but 5.9 is appropriate for the systemic risk. NIST requires DH ≥ 2048 bits. The calibrated vector now follows the published NVD base score because this finding tracks the exposed condition rather than confirmed breakability.
 
 **Attack Prerequisites:**
 - Precomputed discrete log tables for specific DH groups (768/1024-bit)
@@ -1144,13 +1158,13 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-SCENARIO-0009 — TLS 1.3 0-RTT Enabled
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** None specific; RFC 8446 §8
 **CWE:** CWE-294 (Authentication Bypass by Capture-replay)
 **OWASP:** A02:2021 – Cryptographic Failures (informational)
 
-**Severity Reasoning:** TLS 1.3 0-RTT early data does not have forward secrecy and is replayable. Applications that process 0-RTT data without replay protection (e.g., non-idempotent operations) are vulnerable. The TLS layer itself is fine; risk is application-layer. Rated Low as it depends on application handling.
+**Severity Reasoning:** TLS 1.3 0-RTT early data does not have forward secrecy and is replayable. Applications that process 0-RTT data without replay protection (e.g., non-idempotent operations) are vulnerable. The TLS layer itself is fine; risk is application-layer. Rated informational because exploitability depends on application handling.
 
 **Attack Prerequisites:**
 - Captured 0-RTT early data from prior session
@@ -1192,7 +1206,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-EXTENSION-0011 — ALPN Hardening Missing for HTTP/2
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** RFC 7540 §9.2
 **CWE:** CWE-16 (Configuration)
@@ -1206,7 +1220,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-EXTENSION-0012 — ALPN Not Advertised
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** RFC 7301 (ALPN), RFC 7540 (HTTP/2 ALPN requirement)
 **CWE:** CWE-16 (Configuration)
@@ -1220,7 +1234,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-KEX-0101 — diffie-hellman-group1-sha1
 
-**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** CVE-2016-20012 (related weak KEX); IETF draft-ietf-curdle-ssh-kex-sha2
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -1228,9 +1242,10 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 **CVSS Vector Explanation:**
 - AC:H — Logjam-style precomputation required for 1024-bit group
-- C:H — Full session key recovery once discrete log is solved
+- C:L — Vendor baselines usually treat weak SSH KEX as low-severity cryptographic exposure
+- I:N / A:N — No immediate integrity or availability impact
 
-**Severity Reasoning:** Group1 uses a hardcoded 768-bit Oakley Group 2 DH prime. This is equivalent to the Logjam-vulnerable DH parameters in TLS. IETF deprecated this KEX. Downgraded from High to Medium because active exploitation requires nation-state precomputation resources (not commodity threat actors).
+**Severity Reasoning:** Group1 uses a hardcoded 768-bit Oakley Group 2 DH prime. This is equivalent to the Logjam-vulnerable DH parameters in TLS. IETF deprecated this KEX. Downgraded from High to Medium because active exploitation requires nation-state precomputation resources (not commodity threat actors). Nessus now places comparable weak SSH KEX findings in the Low range, so the calibrated score follows the vendor baseline.
 
 **Attack Prerequisites:**
 - Precomputed discrete log table for 768/1024-bit Oakley Group 2
@@ -1240,13 +1255,13 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-KEX-0102 — diffie-hellman-group-exchange-sha1
 
-**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** IETF RFC 9142 (deprecation of SHA-1 KEX)
 **CWE:** CWE-326 (Inadequate Encryption Strength), CWE-327
 **OWASP:** A02:2021 – Cryptographic Failures
 
-**Severity Reasoning:** SHA-1 based group exchange is deprecated by RFC 9142. The SHA-1 hash in KEX does not directly enable current attacks, but SHA-1 weaknesses in the MAC context could facilitate tampering in rare conditions. Consensus: Medium.
+**Severity Reasoning:** SHA-1 based group exchange is deprecated by RFC 9142. The SHA-1 hash in KEX does not directly enable current attacks, but SHA-1 weaknesses in the MAC context could facilitate tampering in rare conditions. Consensus: Medium. Current scanner baselines are more conservative and generally keep this class of finding in the Low range, which is why the score was adjusted.
 
 **Attack Prerequisites:**
 - Active MITM to downgrade from SHA-256 to SHA-1 group exchange
@@ -1256,13 +1271,13 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-KEX-0103 — gss-* SHA1 KEX Enabled
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** RFC 9142 (SHA-1 KEX deprecation)
 **CWE:** CWE-327 (Use of a Broken or Risky Cryptographic Algorithm)
 **OWASP:** A02:2021 – Cryptographic Failures
 
-**Severity Reasoning:** GSSAPI key exchange with SHA-1 hash is deprecated. Lower risk than group1-sha1 because GSSAPI also involves Kerberos/GSSAPI authentication which adds additional security layers. Primarily a compliance finding.
+**Severity Reasoning:** GSSAPI key exchange with SHA-1 hash is deprecated. Lower risk than group1-sha1 because GSSAPI also involves Kerberos/GSSAPI authentication which adds additional security layers. Primarily a compliance finding. Vendor analogues generally score this class in the Low range, so the updated vector reflects that baseline.
 
 **Attack Prerequisites:**
 - GSSAPI/Kerberos infrastructure access
@@ -1272,7 +1287,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-HOSTKEY-0104 — ssh-rsa (SHA1) Hostkey
 
-**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** OpenSSH deprecation of ssh-rsa (OpenSSH 8.8, 2021)
 **CWE:** CWE-327 (Use of a Broken or Risky Cryptographic Algorithm)
@@ -1280,9 +1295,10 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 **CVSS Vector Explanation:**
 - AC:H — SHA-1 collision to forge host key signature requires significant resources
-- C:H — Successful forgery enables full MITM of SSH session
+- C:L — The residual risk is usually treated as low because practical forgery remains expensive
+- I:N / A:N — No direct integrity or availability impact from simple algorithm support alone
 
-**Severity Reasoning:** OpenSSH deprecated ssh-rsa (SHA-1) in 8.8 (September 2021). SHA-1 collisions are demonstrated (Google SHAttered). A forged host key signature enables MITM, though the cost is high. Downgraded to Medium per industry consensus (attack not practical for commodity threat actors).
+**Severity Reasoning:** OpenSSH deprecated ssh-rsa (SHA-1) in 8.8 (September 2021). SHA-1 collisions are demonstrated (Google SHAttered). A forged host key signature enables MITM, though the cost is high. Downgraded to Medium per industry consensus (attack not practical for commodity threat actors). Current vendor baselines are more conservative and usually keep simple algorithm support in the Low range.
 
 **Attack Prerequisites:**
 - SHA-1 chosen-prefix collision capability
@@ -1292,13 +1308,13 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-HOSTKEY-0105 — RSA Hostkey < 2048 Bits
 
-**Severity:** Medium | **CVSS Score:** 5.9 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** NIST SP 800-131A
 **CWE:** CWE-326 (Inadequate Encryption Strength)
 **OWASP:** A02:2021 – Cryptographic Failures
 
-**Severity Reasoning:** RSA host keys below 2048 bits can be factored. Once factored, attacker can impersonate the server for all future connections (until key rotation). NIST requires ≥ 2048; recommends ≥ 3072 post-2030. Downgraded to Medium because factoring 1024-bit still requires significant resources.
+**Severity Reasoning:** RSA host keys below 2048 bits can be factored. Once factored, attacker can impersonate the server for all future connections (until key rotation). NIST requires ≥ 2048; recommends ≥ 3072 post-2030. Downgraded to Medium because factoring 1024-bit still requires significant resources. Vendor scoring is typically more conservative for standalone key-length findings, so the calibrated vector now lands in the Low range.
 
 **Attack Prerequisites:**
 - Capture public host key from SSH banner
@@ -1308,7 +1324,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-CIPHER-0106 — CBC Ciphers Enabled
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** CVE-2008-5161 (SSH CBC vulnerability)
 **CWE:** CWE-327 (Use of a Broken or Risky Cryptographic Algorithm)
@@ -1316,9 +1332,10 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 **CVSS Vector Explanation:**
 - AC:H — Plaintext recovery via CBC oracle requires specific conditions
-- C:L / I:L — Partial session data recovery/modification
+- C:L — Partial session data recovery is the primary concern
+- I:N / A:N — Modern implementations and mitigations reduce the likelihood of broader impact
 
-**Severity Reasoning:** CVE-2008-5161 demonstrates CBC plaintext recovery in SSH via adaptive oracle attacks. Modern SSH implementations include workarounds, but the underlying weakness persists. NIST and CIS guides recommend CTR or AEAD modes.
+**Severity Reasoning:** CVE-2008-5161 demonstrates CBC plaintext recovery in SSH via adaptive oracle attacks. Modern SSH implementations include workarounds, but the underlying weakness persists. NIST and CIS guides recommend CTR or AEAD modes. Scanner vendors generally keep this in the Low range because the practical oracle conditions are constrained.
 
 **Attack Prerequisites:**
 - Active MITM with ability to inject and observe modified CBC blocks
@@ -1344,17 +1361,17 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-MAC-0108 — hmac-sha1 Enabled
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** RFC 9142 (SHA-1 MAC deprecation in SSH)
 **CWE:** CWE-327 (Use of a Broken or Risky Cryptographic Algorithm)
 **OWASP:** A02:2021 – Cryptographic Failures
 
 **CVSS Vector Explanation:**
-- AC:H — SHA-1 MAC forgery requires chosen-prefix collision capability
-- C:L / I:L — Partial message integrity bypass possible if MAC is forged
+- AC:H — Exploitation requires expensive cryptanalytic work and an active MITM position
+- C:N / I:N / A:N — Vendors generally treat simple HMAC-SHA1 support as informational hardening debt
 
-**Severity Reasoning:** HMAC-SHA1 is deprecated but not immediately broken for MAC purposes (HMAC construction adds security on top of SHA-1). However, SHA-1 weaknesses affect the security margin. RFC 9142 recommends migrating to HMAC-SHA2-256 or HMAC-SHA2-512.
+**Severity Reasoning:** HMAC-SHA1 is deprecated but not immediately broken for MAC purposes (HMAC construction adds security on top of SHA-1). However, SHA-1 weaknesses affect the security margin. RFC 9142 recommends migrating to HMAC-SHA2-256 or HMAC-SHA2-512. Nessus-class guidance generally treats simple support as informational, so the calibrated score was reduced accordingly.
 
 **Attack Prerequisites:**
 - SHA-1 collision capability (nation-state level cost)
@@ -1364,7 +1381,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-MAC-0109 — umac-64 Enabled
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Low | **CVSS Score:** 3.7 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N`
 
 **CVE References:** None specific
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -1380,7 +1397,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-SSH-CONFIG-0110 — SSH Banner Exposes Legacy Version
 
-**Severity:** Low | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CVE References:** Various OpenSSH CVEs by version
 **CWE:** CWE-200 (Exposure of Sensitive Information to an Unauthorized Actor)
@@ -1396,17 +1413,19 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-RDP-TLS-0201 — RDP Does Not Require NLA
 
-**Severity:** High | **CVSS Score:** 7.3 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L`
+**Severity:** Medium | **CVSS Score:** 4.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:N/A:N`
 
 **CVE References:** CVE-2019-0708 (BlueKeep), CVE-2019-1181/1182 (DejaBlue)
 **CWE:** CWE-287 (Improper Authentication)
 **OWASP:** A07:2021 – Identification and Authentication Failures
 
 **CVSS Vector Explanation:**
-- AV:N / AC:L — Trivially reachable from any network; no special conditions
-- C:L / I:L / A:L — Pre-auth access to login screen enables credential spray and pre-auth RCE
+- AV:N / AC:H — The condition is remotely reachable, but meaningful exploitation depends on additional attack preconditions
+- S:C — Exposure expands the reachable pre-auth attack surface of the remote desktop service
+- C:L — Limited confidentiality impact from pre-auth session metadata and login exposure
+- I:N / A:N — The finding itself does not guarantee integrity or availability loss
 
-**Severity Reasoning:** Without NLA, RDP presents the Windows login screen before authentication, exposing the system to pre-authentication vulnerabilities (BlueKeep CVE-2019-0708 = CVSS 9.8 Critical), credential brute-force, and screenshot/fingerprinting attacks. NLA gates authentication before the desktop session is established. Industry rates NLA absence as High.
+**Severity Reasoning:** Without NLA, RDP presents the Windows login screen before authentication, exposing the system to pre-authentication vulnerabilities (BlueKeep CVE-2019-0708 = CVSS 9.8 Critical), credential brute-force, and screenshot/fingerprinting attacks. NLA gates authentication before the desktop session is established. Industry rates NLA absence as High. Nessus keeps the standalone configuration finding in the Medium range, so the calibrated vector now follows that vendor baseline.
 
 **Attack Prerequisites:**
 - Network access to RDP port (3389)
@@ -1448,13 +1467,13 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-RDP-TLS-0204 — RDP Certificate Invalid/Expired
 
-**Severity:** High | **CVSS Score:** 8.6 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N`
+**Severity:** Medium | **CVSS Score:** 5.3 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N`
 
 **CVE References:** None (operational issue)
 **CWE:** CWE-295 (Improper Certificate Validation)
 **OWASP:** A07:2021 – Identification and Authentication Failures
 
-**Severity Reasoning:** An invalid RDP certificate means the RDP client cannot validate server identity. Any attacker can perform MITM on RDP sessions, capturing credentials and session data. RDP MITM enables full keystroke and screen capture. Rated High (8.6) consistent with HS-TLS-CERT-0002/0003.
+**Severity Reasoning:** An invalid RDP certificate means the RDP client cannot validate server identity. Any attacker can perform MITM on RDP sessions, capturing credentials and session data. RDP MITM enables full keystroke and screen capture. Rated High (8.6) consistent with certificate-authentication failures where confidentiality impact is high but integrity and availability impacts are typically partial. Scanner vendors more commonly score this certificate-validation family as Medium, so the calibrated vector now reflects that external baseline.
 
 **Attack Prerequisites:**
 - Network MITM position on RDP path
@@ -1464,7 +1483,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-RDP-CONFIG-0205 — RDP Weak Cipher Suites
 
-**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
+**Severity:** Medium | **CVSS Score:** 5.3 | **Vector:** `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N`
 
 **CVE References:** None specific
 **CWE:** CWE-326 (Inadequate Encryption Strength)
@@ -1480,7 +1499,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-GENERAL-CONFIG-0900 — Target Normalization Ambiguity
 
-**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** N/A
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CWE:** CWE-20 (Improper Input Validation)
 **OWASP:** A05:2021 – Security Misconfiguration (operational)
@@ -1491,7 +1510,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-GENERAL-CONFIG-0901 — DNS Resolution Failed
 
-**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** N/A
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CWE:** CWE-20 (Improper Input Validation)
 **OWASP:** A05:2021 – Security Misconfiguration (operational)
@@ -1502,7 +1521,7 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-GENERAL-CONFIG-0902 — Connection Timeout
 
-**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** N/A
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CWE:** CWE-400 (Uncontrolled Resource Consumption — network)
 **OWASP:** A05:2021 – Security Misconfiguration (operational)
@@ -1513,18 +1532,18 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-GENERAL-CONFIG-0903 — Protocol Auto-Detect Mismatch
 
-**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** N/A
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CWE:** CWE-20 (Improper Input Validation)
 **OWASP:** A05:2021 – Security Misconfiguration (operational)
 
-**Severity Reasoning:** Operational diagnostic. Port is reachable but does not respond to the expected protocol. Specify the correct protocol with `--protocol` flag.
+**Severity Reasoning:** Operational diagnostic. Port is reachable but does not respond to the expected protocol. Verify the target, port, and imported scan file type before retrying.
 
 ---
 
 ### HS-GENERAL-CONFIG-0904 — Policy Profile Missing/Invalid
 
-**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** N/A
+**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
 
 **CWE:** CWE-20 (Improper Input Validation)
 **OWASP:** A05:2021 – Security Misconfiguration (operational)

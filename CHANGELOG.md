@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- `FINDING_AUDIT_MATRIX.md` — generated 68-row audit matrix mapping each finding to protocol, severity, CVSS vector, and external source basis
+- `scripts/generate_finding_audit_matrix.py` — regenerates `FINDING_AUDIT_MATRIX.md` from `src/findings/catalog.rs`
+- `scripts/check_finding_index_sync.py` — verifies `FINDING_INDEX.MD` and `FINDING_AUDIT_MATRIX.md` stay aligned with `src/findings/catalog.rs`
+- `make verify-docs` and `make generate-audit-matrix`
+- 32 additional test scenarios, bringing the suite to 101 tests total
+  - `tests/input_edge_cases.rs`
+  - `tests/cvss_edges.rs`
+  - `tests/catalog_audit.rs`
+  - `tests/runtime_edges.rs`
+  - `tests/finding_index_sync.rs`
+
+### Changed
+- `handshaker scan --file` now auto-detects plain target files, nmap grep, nmap XML, nuclei JSON(L), and testssl JSON
+- Full 68-finding audit completed across `src/findings/catalog.rs` and `FINDING_INDEX.MD`
+  - CVSS vectors, scores, severities, and references recalibrated against external sources where applicable
+  - Original reasoning in `FINDING_INDEX.MD` preserved and augmented with vendor/source calibration notes
+- CVSS calculator now rounds up according to CVSS v3.1 rules
+- Catalog/document sync is now enforced by test coverage
+
 ## [7.3.3] - 2026-03-14
 
 ### Fixed

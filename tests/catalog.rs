@@ -86,3 +86,16 @@ fn all_cvss_vectors_compute_valid_score() {
         );
     }
 }
+
+#[test]
+fn catalog_severity_aligns_with_cvss_guidelines() {
+    use handshaker::scoring::cvss::{score, severity};
+    for f in ALL_FINDINGS {
+        let computed = severity(score(f.cvss_vector).unwrap());
+        assert_eq!(
+            f.severity, computed,
+            "severity/CVSS mismatch for {}: declared {:?}, computed {:?}",
+            f.id, f.severity, computed
+        );
+    }
+}

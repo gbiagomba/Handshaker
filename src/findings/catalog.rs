@@ -24,7 +24,7 @@ pub const HS_TLS_PROTOCOL_0002: FindingMeta = FindingMeta {
     impact: "Legacy downgrade paths can enable man-in-the-middle attacks and weaken or break confidentiality.",
     remediation: "Disable SSLv3. Permit only TLS 1.2+ (and preferably TLS 1.3).",
     references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:L",
 };
 
 pub const HS_TLS_PROTOCOL_0003: FindingMeta = FindingMeta {
@@ -35,11 +35,8 @@ pub const HS_TLS_PROTOCOL_0003: FindingMeta = FindingMeta {
     description: "The service accepts connections using TLS 1.0, a deprecated protocol version.",
     impact: "TLS 1.0 is affected by multiple cryptographic weaknesses and ecosystem deprecations; attackers may leverage downgrade or protocol weaknesses to weaken confidentiality and integrity.",
     remediation: "Disable TLS 1.0 at the service and any TLS termination points. Enforce TLS 1.2+.",
-    references: &[
-        "https://www.tenable.com/plugins/nessus/84470",
-        "https://www.tenable.com/plugins/nessus/104743",
-    ],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/104743", "https://www.tenable.com/plugins/nessus/84470", "https://www.rfc-editor.org/rfc/rfc8996"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N",
 };
 
 pub const HS_TLS_PROTOCOL_0004: FindingMeta = FindingMeta {
@@ -50,8 +47,8 @@ pub const HS_TLS_PROTOCOL_0004: FindingMeta = FindingMeta {
     description: "The service accepts connections using TLS 1.1, a deprecated protocol version.",
     impact: "TLS 1.1 lacks support for modern recommended cipher suites and is deprecated by major vendors; allowing it increases downgrade surface and weakens posture.",
     remediation: "Disable TLS 1.1 and enforce TLS 1.2+.",
-    references: &["https://www.tenable.com/plugins/nessus/157288"],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/157288", "https://www.rfc-editor.org/rfc/rfc8996"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:L/A:N",
 };
 
 pub const HS_TLS_PROTOCOL_0005: FindingMeta = FindingMeta {
@@ -70,7 +67,7 @@ pub const HS_TLS_PROTOCOL_0006: FindingMeta = FindingMeta {
     id: "HS-TLS-PROTOCOL-0006",
     title: "TLS 1.3 not supported",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "The service does not support TLS 1.3.",
     impact: "Lack of TLS 1.3 can indicate slower handshakes and missing modern hardening features.",
     remediation: "Enable TLS 1.3 where supported by the server stack.",
@@ -143,12 +140,12 @@ pub const HS_TLS_CIPHER_0002: FindingMeta = FindingMeta {
     id: "HS-TLS-CIPHER-0002",
     title: "Anonymous (aNULL) cipher suite supported",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The service supports anonymous cipher suites without authentication.",
     impact: "Man-in-the-middle attacks are possible due to lack of authentication.",
     remediation: "Disable aNULL cipher suites.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/31705"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
 };
 
 pub const HS_TLS_CIPHER_0003: FindingMeta = FindingMeta {
@@ -251,48 +248,48 @@ pub const HS_TLS_CERT_0001: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0001",
     title: "Certificate expired",
     protocol: Protocol::Tls,
-    severity: Severity::Critical,
+    severity: Severity::Medium,
     description: "The certificate is expired.",
     impact: "Clients may reject the connection or be vulnerable to MITM.",
     remediation: "Renew and replace the certificate.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+    references: &["https://www.tenable.com/plugins/nessus/15901"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0002: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0002",
     title: "Certificate not yet valid",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Info,
     description: "The certificate is not yet valid.",
     impact: "Clients may reject the connection or be vulnerable to MITM.",
     remediation: "Correct system time or install a valid certificate.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/42980"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N",
 };
 
 pub const HS_TLS_CERT_0003: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0003",
     title: "Self-signed certificate (public context)",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "The server presents a self-signed certificate.",
     impact: "Clients cannot validate server identity, enabling MITM attacks.",
     remediation: "Use a certificate issued by a trusted CA.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/57582"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0004: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0004",
     title: "Hostname mismatch (SAN/CN)",
     protocol: Protocol::Tls,
-    severity: Severity::High,
+    severity: Severity::Info,
     description: "Certificate hostname does not match the target host.",
     impact: "Clients may reject the connection or be vulnerable to MITM.",
     remediation: "Issue a certificate with proper SAN/CN entries.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/45410", "https://www.rfc-editor.org/rfc/rfc6125"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N",
 };
 
 pub const HS_TLS_CERT_0005: FindingMeta = FindingMeta {
@@ -303,20 +300,20 @@ pub const HS_TLS_CERT_0005: FindingMeta = FindingMeta {
     description: "The certificate uses a SHA1 signature algorithm.",
     impact: "SHA1 is deprecated due to collision attacks.",
     remediation: "Use SHA-256 or stronger.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/35291", "https://www.tenable.com/plugins/nessus/86067"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0006: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0006",
     title: "RSA key size < 2048",
     protocol: Protocol::Tls,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The certificate uses an RSA key smaller than 2048 bits.",
     impact: "Short keys are vulnerable to brute force.",
     remediation: "Use RSA 2048+ or ECDSA with strong curves.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/73459", "https://www.tenable.com/plugins/was/112540", "https://csrc.nist.gov/pubs/sp/800/131/a/r2/final"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_TLS_CERT_0007: FindingMeta = FindingMeta {
@@ -327,8 +324,8 @@ pub const HS_TLS_CERT_0007: FindingMeta = FindingMeta {
     description: "The certificate chain is incomplete.",
     impact: "Some clients may fail to validate the certificate.",
     remediation: "Serve the full certificate chain.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/51192"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0008: FindingMeta = FindingMeta {
@@ -339,15 +336,15 @@ pub const HS_TLS_CERT_0008: FindingMeta = FindingMeta {
     description: "The certificate uses weak public key parameters.",
     impact: "Weak public key parameters reduce cryptographic strength.",
     remediation: "Use modern key types and parameters.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/56284", "https://www.rfc-editor.org/rfc/rfc5280"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0009: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0009",
     title: "Long-lived certificate validity (policy violation)",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "The certificate validity exceeds recommended limits.",
     impact: "Long-lived certs increase exposure window for key compromise.",
     remediation: "Use shorter certificate validity periods.",
@@ -359,7 +356,7 @@ pub const HS_TLS_CERT_0010: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0010",
     title: "OCSP stapling not supported (best practice)",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "OCSP stapling was not observed.",
     impact: "Clients may have to fetch OCSP, impacting privacy or performance.",
     remediation: "Enable OCSP stapling.",
@@ -371,7 +368,7 @@ pub const HS_TLS_CERT_0011: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0011",
     title: "OCSP Must-Staple not set",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "The certificate does not include the OCSP Must-Staple extension.",
     impact:
         "Clients may be unable to require stapled OCSP responses, reducing revocation freshness.",
@@ -385,7 +382,7 @@ pub const HS_TLS_CERT_0012: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0012",
     title: "Certificate transparency SCT not observed",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "Signed Certificate Timestamps (SCT) were not observed.",
     impact: "Missing SCTs can reduce transparency auditing for publicly trusted certificates.",
     remediation: "Ensure CT logs/SCTs are included for public certificates.",
@@ -409,7 +406,7 @@ pub const HS_TLS_EXTENSION_0011: FindingMeta = FindingMeta {
     id: "HS-TLS-EXTENSION-0011",
     title: "ALPN hardening missing for HTTP/2",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "ALPN configuration does not enforce expected HTTP/2 hardening.",
     impact: "ALPN misconfiguration can allow weaker protocol negotiation paths.",
     remediation: "Configure ALPN explicitly for HTTP/2 and restrict weak protocol paths.",
@@ -421,7 +418,7 @@ pub const HS_TLS_SCENARIO_0009: FindingMeta = FindingMeta {
     id: "HS-TLS-SCENARIO-0009",
     title: "TLS 1.3 0-RTT enabled indicator",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "0-RTT appears enabled for TLS 1.3.",
     impact: "0-RTT can enable replay of early data if not mitigated.",
     remediation: "Disable 0-RTT or restrict early data for idempotent requests only.",
@@ -457,7 +454,7 @@ pub const HS_TLS_CIPHER_0012: FindingMeta = FindingMeta {
     id: "HS-TLS-CIPHER-0012",
     title: "No ChaCha20-Poly1305 suites available",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "The server does not appear to offer ChaCha20-Poly1305 suites.",
     impact: "Lack of ChaCha20 can reduce performance or resilience on some platforms.",
     remediation: "Enable ChaCha20-Poly1305 suites where appropriate.",
@@ -469,7 +466,7 @@ pub const HS_TLS_EXTENSION_0012: FindingMeta = FindingMeta {
     id: "HS-TLS-EXTENSION-0012",
     title: "ALPN not advertised",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "The server did not advertise any ALPN protocols.",
     impact: "Lack of ALPN can prevent negotiation of modern protocols like HTTP/2.",
     remediation: "Configure ALPN to advertise supported application protocols.",
@@ -481,7 +478,7 @@ pub const HS_TLS_CERT_0013: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0013",
     title: "RSA key size below 3072",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "The certificate uses RSA with size below 3072 bits.",
     impact: "Some policies require 3072-bit RSA for higher assurance.",
     remediation: "Use RSA 3072+ or modern ECDSA keys where policy requires.",
@@ -517,7 +514,7 @@ pub const HS_TLS_SCENARIO_0003: FindingMeta = FindingMeta {
     id: "HS-TLS-SCENARIO-0003",
     title: "Session tickets enabled without rotation indicator",
     protocol: Protocol::Tls,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "Session tickets appear enabled without rotation indicator.",
     impact: "Static ticket keys can allow long-term decryption if compromised.",
     remediation: "Rotate session ticket keys regularly.",
@@ -529,12 +526,12 @@ pub const HS_TLS_SCENARIO_0004: FindingMeta = FindingMeta {
     id: "HS-TLS-SCENARIO-0004",
     title: "Supports weak DH parameters (Logjam-style exposure indicator)",
     protocol: Protocol::Tls,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server supports weak DH parameters.",
     impact: "Weak DH parameters can enable Logjam-style attacks.",
     remediation: "Use strong DH parameters (>=2048 bits) or ECDHE.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    references: &["https://nvd.nist.gov/vuln/detail/CVE-2015-4000", "https://www.tenable.com/plugins/nessus/53360"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
 };
 
 pub const HS_TLS_SCENARIO_0005: FindingMeta = FindingMeta {
@@ -589,72 +586,72 @@ pub const HS_SSH_KEX_0101: FindingMeta = FindingMeta {
     id: "HS-SSH-KEX-0101",
     title: "diffie-hellman-group1-sha1 enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server supports diffie-hellman-group1-sha1.",
     impact: "Group1 is weak and vulnerable to logjam-style attacks.",
     remediation: "Disable group1 and use modern KEX algorithms.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/153953", "https://www.rfc-editor.org/rfc/rfc9142"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_SSH_KEX_0102: FindingMeta = FindingMeta {
     id: "HS-SSH-KEX-0102",
     title: "diffie-hellman-group-exchange-sha1 enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server supports diffie-hellman-group-exchange-sha1.",
     impact: "SHA1-based KEX is deprecated.",
     remediation: "Use group-exchange-sha256 or curve25519.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/153953", "https://www.rfc-editor.org/rfc/rfc9142"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_SSH_KEX_0103: FindingMeta = FindingMeta {
     id: "HS-SSH-KEX-0103",
     title: "gss-* sha1 KEX enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server supports gss-* sha1 key exchange.",
     impact: "SHA1 in KEX is deprecated.",
     remediation: "Disable SHA1-based KEX.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/153953", "https://www.rfc-editor.org/rfc/rfc9142"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_SSH_HOSTKEY_0104: FindingMeta = FindingMeta {
     id: "HS-SSH-HOSTKEY-0104",
     title: "ssh-rsa (SHA1) hostkey enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server supports ssh-rsa with SHA1 signatures.",
     impact: "SHA1 is deprecated and weak.",
     remediation: "Disable ssh-rsa or enable rsa-sha2-*.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    references: &["https://www.rfc-editor.org/rfc/rfc9142"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_SSH_HOSTKEY_0105: FindingMeta = FindingMeta {
     id: "HS-SSH-HOSTKEY-0105",
     title: "RSA hostkey < 2048",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server presents an RSA hostkey < 2048 bits.",
     impact: "Short RSA keys are weak against brute force.",
     remediation: "Use RSA 2048+ or ECDSA/Ed25519.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:H/I:N/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/153954", "https://csrc.nist.gov/pubs/sp/800/131/a/r2/final"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_SSH_CIPHER_0106: FindingMeta = FindingMeta {
     id: "HS-SSH-CIPHER-0106",
     title: "CBC ciphers enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server supports CBC-mode ciphers.",
     impact: "CBC in SSH can be vulnerable to plaintext recovery in some contexts.",
     remediation: "Use CTR or AEAD modes.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/70658", "https://www.tenable.com/plugins/nessus/44065"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_SSH_CIPHER_0107: FindingMeta = FindingMeta {
@@ -673,31 +670,31 @@ pub const HS_SSH_MAC_0108: FindingMeta = FindingMeta {
     id: "HS-SSH-MAC-0108",
     title: "hmac-sha1 enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Info,
     description: "The server supports hmac-sha1.",
     impact: "SHA1-based MACs are deprecated.",
     remediation: "Disable hmac-sha1.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/153588"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N",
 };
 
 pub const HS_SSH_MAC_0109: FindingMeta = FindingMeta {
     id: "HS-SSH-MAC-0109",
     title: "umac-64 enabled",
     protocol: Protocol::Ssh,
-    severity: Severity::Medium,
+    severity: Severity::Low,
     description: "The server supports umac-64.",
     impact: "UMAC-64 provides reduced integrity strength.",
     remediation: "Use umac-128 or hmac-sha2.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/71049"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:L/A:N",
 };
 
 pub const HS_SSH_CONFIG_0110: FindingMeta = FindingMeta {
     id: "HS-SSH-CONFIG-0110",
     title: "SSH banner exposes legacy server version",
     protocol: Protocol::Ssh,
-    severity: Severity::Low,
+    severity: Severity::Info,
     description: "The server banner discloses a legacy version.",
     impact: "Legacy versions are more likely to contain known vulnerabilities.",
     remediation: "Upgrade SSH server and avoid version disclosure if possible.",
@@ -709,13 +706,13 @@ pub const HS_RDP_TLS_0201: FindingMeta = FindingMeta {
     id: "HS-RDP-TLS-0201",
     title: "RDP does not require NLA",
     protocol: Protocol::Rdp,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "RDP does not require Network Level Authentication.",
     impact:
         "RDP without NLA increases exposure to credential attacks and pre-auth vulnerabilities.",
     remediation: "Require NLA and restrict RDP exposure.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:L",
+    references: &["https://www.tenable.com/plugins/nessus/58453"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:L/I:N/A:N",
 };
 
 pub const HS_RDP_TLS_0202: FindingMeta = FindingMeta {
@@ -746,12 +743,12 @@ pub const HS_RDP_TLS_0204: FindingMeta = FindingMeta {
     id: "HS-RDP-TLS-0204",
     title: "RDP certificate invalid/expired",
     protocol: Protocol::Rdp,
-    severity: Severity::High,
+    severity: Severity::Medium,
     description: "RDP certificate is invalid or expired.",
     impact: "Clients may not be able to validate the server identity.",
     remediation: "Replace the RDP certificate with a valid one.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/15901", "https://www.tenable.com/plugins/nessus/51192"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N",
 };
 
 pub const HS_RDP_CONFIG_0205: FindingMeta = FindingMeta {
@@ -762,8 +759,8 @@ pub const HS_RDP_CONFIG_0205: FindingMeta = FindingMeta {
     description: "RDP negotiates weak cipher suites.",
     impact: "Weak ciphers reduce confidentiality.",
     remediation: "Harden RDP TLS cipher suites.",
-    references: &[],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
+    references: &["https://www.tenable.com/plugins/nessus/57690", "https://www.tenable.com/plugins/nessus/26928"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N",
 };
 
 pub const HS_GENERAL_CONFIG_0900: FindingMeta = FindingMeta {

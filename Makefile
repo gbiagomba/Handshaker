@@ -1,7 +1,7 @@
 PACKAGE := handshaker
 BIN := target/release/$(PACKAGE)
 
-.PHONY: all build debug run test fmt ci clean
+.PHONY: all build debug run test fmt ci clean generate-audit-matrix verify-docs
 
 all: build
 
@@ -19,6 +19,12 @@ install:
 
 test:
 	cargo test --all
+
+generate-audit-matrix:
+	python3 scripts/generate_finding_audit_matrix.py
+
+verify-docs:
+	python3 scripts/check_finding_index_sync.py
 
 fmt:
 	cargo fmt --all || true

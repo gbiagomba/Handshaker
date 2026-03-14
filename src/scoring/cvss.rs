@@ -1,4 +1,5 @@
 use crate::errors::{HandshakerError, Result};
+use crate::models::Severity;
 
 #[derive(Debug, Clone, Copy)]
 pub struct CvssMetrics {
@@ -28,7 +29,21 @@ pub fn score(vector: &str) -> Result<f64> {
     } else {
         (1.08 * (impact + exploitability)).min(10.0)
     };
-    Ok((base * 10.0).round() / 10.0)
+    Ok(roundup_1dp(base))
+}
+
+pub fn severity(score: f64) -> Severity {
+    if score <= 0.0 {
+        Severity::Info
+    } else if score < 4.0 {
+        Severity::Low
+    } else if score < 7.0 {
+        Severity::Medium
+    } else if score < 9.0 {
+        Severity::High
+    } else {
+        Severity::Critical
+    }
 }
 
 fn parse(vector: &str) -> Result<CvssMetrics> {
@@ -124,4 +139,8 @@ fn parse(vector: &str) -> Result<CvssMetrics> {
         i: i.ok_or_else(|| HandshakerError::Parse("Missing I".into()))?,
         a: a.ok_or_else(|| HandshakerError::Parse("Missing A".into()))?,
     })
+}
+
+fn roundup_1dp(value: f64) -> f64 {
+    (value * 10.0).ceil() / 10.0
 }

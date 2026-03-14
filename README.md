@@ -4,7 +4,7 @@
   <img src="img/Pasted%20image%2020260313184423.png" alt="Handshaker Logo" width="600"/>
 </p>
 
-**Version:** v7.3.2 | **Author:** Gilles Biagomba | **License:** GPL-3.0
+**Version:** v7.3.3 | **Author:** Gilles Biagomba | **License:** GPL-3.0
 
 Handshaker is a native Rust secure-transport posture engine that probes TLS, SSH, and RDP endpoints without shelling out to external tools. It produces stable, machine-parseable finding IDs, SSL Labs–style grades, CVSS v3.1 risk scores, and supports compliance evaluation, benchmarking, longitudinal diffing, and AI-powered analysis.
 
@@ -17,12 +17,13 @@ Handshaker is a native Rust secure-transport posture engine that probes TLS, SSH
 3. [Flags](#flags)
 4. [Usage](#usage)
 5. [Finding Reference](#finding-reference)
-6. [Testssl-Class Coverage Matrix](#testssl-class-coverage-matrix)
-7. [Running Tests](#running-tests)
-8. [Using Docker](#using-docker)
-9. [Using the Makefile](#using-the-makefile)
-10. [Contributing](#contributing)
-11. [License](#license)
+6. [Finding Audit Matrix](#finding-audit-matrix)
+7. [Testssl-Class Coverage Matrix](#testssl-class-coverage-matrix)
+8. [Running Tests](#running-tests)
+9. [Using Docker](#using-docker)
+10. [Using the Makefile](#using-the-makefile)
+11. [Contributing](#contributing)
+12. [License](#license)
 
 ---
 
@@ -35,6 +36,9 @@ Handshaker is a native Rust secure-transport posture engine that probes TLS, SSH
 - **Compliance evaluation** against YAML policies (PCI-DSS, NIST 800-52r2, CIS-like profiles)
 - **Benchmarking and diffing** across scan runs to track remediation progress and detect regressions
 - **Multiple output formats**: JSON, Text, Table, HTML, CSV, SQLite — with optional file output and database persistence
+- **Unified file import** with `handshaker scan --file` auto-detection for plain targets, nmap grep/XML, nuclei JSON(L), and testssl JSON
+- **Vendor-calibrated finding catalog** for all 68 findings, aligned against NVD, Tenable, RFC, and related standards references where applicable
+- **Documentation integrity tooling** to keep `FINDING_INDEX.MD` and `FINDING_AUDIT_MATRIX.md` synchronized with the Rust catalog
 
 ---
 
@@ -86,10 +90,7 @@ bash scripts/install.sh
 | Flag | Short | Type | Default | Description |
 |------|-------|------|---------|-------------|
 | `--target` | `-t` | string | — | Single target: hostname, IP, host:port, or URL |
-| `--file` | `-f` | string | — | File with one target per line |
-| `--nmap-grep` | — | string | — | Path to `.gnmap` file (nmap `-oG` output) |
-| `--nmap-xml` | — | string | — | Path to nmap XML output file (`-oX`) |
-| `--nuclei-json` | — | string | — | Path to nuclei JSONL output file |
+| `--file` | `-f` | string | — | File input: plain targets, nmap grep/XML, nuclei JSON(L), or testssl JSON |
 | `--stdin` | — | bool | false | Read targets from stdin (one per line) |
 | `--ports` | `-p` | list | — | Comma-separated port list (e.g. `443,8443,25`) |
 | `--output` | — | enum | `json` | Output format: `json\|text\|table\|html\|csv\|sqlite` |
@@ -176,10 +177,13 @@ handshaker scan --target mail.example.com --ports 25,587,465,993
 handshaker scan --file hosts.txt --output html --out report.html
 
 # Import targets from nmap XML output
-handshaker scan --nmap-xml scan.xml --output json --out results.json
+handshaker scan --file scan.xml --output json --out results.json
 
 # Import targets from nuclei JSONL output
-handshaker scan --nuclei-json nuclei.jsonl
+handshaker scan --file nuclei.jsonl
+
+# Import targets from testssl JSON output
+handshaker scan --file testssl.json
 
 # Read targets from stdin
 cat hosts.txt | handshaker scan --stdin
@@ -266,6 +270,29 @@ handshaker explain HS-TLS-PROTOCOL-0003
 
 ---
 
+## Finding Audit Matrix
+
+[`FINDING_AUDIT_MATRIX.md`](FINDING_AUDIT_MATRIX.md) is the compact audit companion to `FINDING_INDEX.MD`.
+It maps every finding to:
+
+- current severity
+- current CVSS vector
+- external source basis used during calibration
+
+Generate it from the Rust catalog:
+
+```bash
+python3 scripts/generate_finding_audit_matrix.py
+```
+
+Verify both finding documents are still synchronized with `src/findings/catalog.rs`:
+
+```bash
+python3 scripts/check_finding_index_sync.py
+```
+
+---
+
 ## Testssl-Class Coverage Matrix
 
 | testssl class | Handshaker implementation |
@@ -301,6 +328,8 @@ make ci
 # equivalent to: cargo fmt --all && cargo test --all && cargo build --release
 ```
 
+Current suite size: 101 tests.
+
 ---
 
 ## Using Docker
@@ -327,6 +356,8 @@ docker run --rm -v "$(pwd)":/data handshaker scan --file /data/hosts.txt --outpu
 | `make run ARGS="..."` | Build and run with arguments |
 | `make install` | Run install script (`scripts/install.sh`) |
 | `make test` | Run the full test suite |
+| `make verify-docs` | Verify `FINDING_INDEX.MD` and `FINDING_AUDIT_MATRIX.md` against the Rust catalog |
+| `make generate-audit-matrix` | Regenerate `FINDING_AUDIT_MATRIX.md` from `src/findings/catalog.rs` |
 | `make fmt` | Format all Rust source files |
 | `make ci` | Run fmt + test + build (for CI pipelines) |
 | `make clean` | Remove build artifacts |

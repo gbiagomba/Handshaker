@@ -58,3 +58,36 @@ fn file_input_parse() {
     // example.com → port 443, 192.168.0.1:8443 → port 8443, https://secure.example.com:443 → port 443
     assert_eq!(targets.len(), 3);
 }
+
+#[test]
+fn file_input_autodetects_nmap_xml() {
+    let xml = r#"<?xml version="1.0"?>
+<nmaprun>
+  <host><address addr="10.0.0.2" addrtype="ipv4"/>
+    <ports><port protocol="tcp" portid="443"><state state="open"/></port></ports>
+  </host>
+</nmaprun>"#;
+    let f = write_temp(xml);
+    let targets = handshaker::input::file::load_file(f.path().to_str().unwrap(), &[]).unwrap();
+    assert_eq!(targets.len(), 1);
+    assert_eq!(targets[0].host, "10.0.0.2");
+}
+
+#[test]
+fn file_input_autodetects_nuclei_jsonl() {
+    let jsonl = r#"{"host":"10.0.0.3","port":8443,"template-id":"ssl-tls"}"#;
+    let f = write_temp(jsonl);
+    let targets = handshaker::input::file::load_file(f.path().to_str().unwrap(), &[]).unwrap();
+    assert_eq!(targets.len(), 1);
+    assert_eq!(targets[0].port, 8443);
+}
+
+#[test]
+fn file_input_autodetects_testssl_json() {
+    let json = r#"[{"targetHost":"example.com","ip":"203.0.113.10","port":"443","severity":"LOW","finding":"TLS 1.0 offered"}]"#;
+    let f = write_temp(json);
+    let targets = handshaker::input::file::load_file(f.path().to_str().unwrap(), &[]).unwrap();
+    assert_eq!(targets.len(), 1);
+    assert_eq!(targets[0].host, "example.com");
+    assert_eq!(targets[0].port, 443);
+}
