@@ -146,13 +146,13 @@ fn high_finding_count_is_4() {
 }
 
 #[test]
-fn medium_finding_count_is_33() {
+fn medium_finding_count_is_34() {
     assert_eq!(
         ALL_FINDINGS
             .iter()
             .filter(|f| format!("{}", f.severity) == "Medium")
             .count(),
-        33
+        34
     );
 }
 
@@ -168,13 +168,13 @@ fn low_finding_count_is_9() {
 }
 
 #[test]
-fn info_finding_count_is_20() {
+fn info_finding_count_is_19() {
     assert_eq!(
         ALL_FINDINGS
             .iter()
             .filter(|f| format!("{}", f.severity) == "Info")
             .count(),
-        20
+        19
     );
 }
 

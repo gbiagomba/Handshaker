@@ -284,12 +284,12 @@ pub const HS_TLS_CERT_0004: FindingMeta = FindingMeta {
     id: "HS-TLS-CERT-0004",
     title: "Hostname mismatch (SAN/CN)",
     protocol: Protocol::Tls,
-    severity: Severity::Info,
+    severity: Severity::Medium,
     description: "Certificate hostname does not match the target host.",
-    impact: "Clients may reject the connection or be vulnerable to MITM.",
-    remediation: "Issue a certificate with proper SAN/CN entries.",
-    references: &["https://www.tenable.com/plugins/nessus/45410", "https://www.rfc-editor.org/rfc/rfc6125"],
-    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N",
+    impact: "Clients cannot verify server identity, enabling MITM by any attacker with a valid certificate for the correct hostname.",
+    remediation: "Issue a certificate with proper SAN/CN entries matching all accessed hostnames.",
+    references: &["https://www.tenable.com/plugins/nessus/45410", "https://www.tenable.com/plugins/nessus/45411", "https://www.rfc-editor.org/rfc/rfc6125"],
+    cvss_vector: "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N",
 };
 
 pub const HS_TLS_CERT_0005: FindingMeta = FindingMeta {

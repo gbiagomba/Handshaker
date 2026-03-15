@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
+## [7.4.0] - 2026-03-15
 
 ### Added
 - `FINDING_AUDIT_MATRIX.md` — generated 68-row audit matrix mapping each finding to protocol, severity, CVSS vector, and external source basis
@@ -23,6 +23,12 @@ All notable changes to this project will be documented in this file.
   - Original reasoning in `FINDING_INDEX.MD` preserved and augmented with vendor/source calibration notes
 - CVSS calculator now rounds up according to CVSS v3.1 rules
 - Catalog/document sync is now enforced by test coverage
+- **HS-TLS-CERT-0004** (Hostname mismatch): corrected Info/0.0 → Medium/4.8; vector updated to `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` consistent with MITM-class findings; severity reasoning updated with Tenable plugin 45411 citation
+
+### Dependencies
+- `rand` updated 0.9.2 → 0.10.0; call site in `src/output/sqlite.rs` updated to `rand::random::<[u8; 16]>()`
+- `rusqlite` updated 0.32.1 → 0.38.0
+- `quick-xml` updated 0.37.5 → 0.39.2
 
 ## [7.3.3] - 2026-03-14
 

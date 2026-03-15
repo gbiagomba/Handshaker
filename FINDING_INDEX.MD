@@ -63,7 +63,7 @@ applicable compliance policy profiles.
 | HS-TLS-CERT-0001 | Certificate expired | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | An expired certificate cannot be trusted; compliant clients reject the connection, causing outage |
 | HS-TLS-CERT-0002 | Certificate not yet valid | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | Certificate validity has not started; indicates misconfiguration or clock skew |
 | HS-TLS-CERT-0003 | Self-signed certificate | Medium | 6.5 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N` | No third-party CA validates identity; any attacker can present a matching self-signed cert (MITM) |
-| HS-TLS-CERT-0004 | Hostname mismatch (SAN/CN) | Info | 0.0 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | The certificate does not cover the hostname being connected to; RFC 6125 validation fails |
+| HS-TLS-CERT-0004 | Hostname mismatch (SAN/CN) | Medium | 4.8 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | The certificate does not cover the hostname being connected to; RFC 6125 validation fails, enabling MITM |
 | HS-TLS-CERT-0005 | Weak signature algorithm (SHA1) | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | SHA-1 is cryptographically broken (SHAttered); certificates must use SHA-256 or stronger |
 | HS-TLS-CERT-0006 | RSA key < 2048 bits | Low | 3.7 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | Keys shorter than 2048 bits are factorable with commodity hardware; NIST SP 800-131A requires ≥2048 |
 | HS-TLS-CERT-0007 | Incomplete certificate chain | Medium | 5.3 | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | Missing intermediate CAs prevent path validation; strict clients may reject the connection |
@@ -845,17 +845,19 @@ Standards references, CVSS vector explanations, severity reasoning, and attack p
 
 ### HS-TLS-CERT-0004 — Hostname Mismatch (SAN/CN)
 
-**Severity:** Info | **CVSS Score:** 0.0 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N`
+**Severity:** Medium | **CVSS Score:** 4.8 | **Vector:** `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N`
 
 **CVE References:** None (configuration issue)
 **CWE:** CWE-297 (Improper Validation of Certificate with Host Mismatch)
 **OWASP:** A07:2021 – Identification and Authentication Failures
 
 **CVSS Vector Explanation:**
-- AC:H — The mismatch is generally a validation or deployment issue rather than an independently exploitable network flaw
-- C:N / I:N / A:N — Major scanner baselines commonly treat this as informational unless there is a demonstrated trust-bypass scenario
+- AC:H — Requires a network-positioned attacker or DNS poisoning to exploit
+- C:L — Partial confidentiality exposure; an attacker positioned to MITM can observe encrypted traffic
+- I:L — Partial integrity exposure; attacker can inject or modify traffic without the victim detecting server identity mismatch
+- A:N — No direct availability impact
 
-**Severity Reasoning:** RFC 6125 mandates hostname validation. A mismatch means the certificate does not prove server identity for the accessed hostname, enabling MITM by anyone with a valid cert for the correct hostname. Nessus commonly treats hostname mismatch as informational when there is no demonstrated trust-bypass path, so the adjusted score reflects that narrower scanner baseline.
+**Severity Reasoning:** RFC 6125 mandates hostname validation. A mismatch means the certificate does not prove server identity for the accessed hostname, enabling MITM by any attacker with a valid certificate for the correct hostname (obtainable from public CAs). Tenable plugin 45411 (SSL Wrong Hostname) treats this as a Low-Medium finding. Score 4.8 is consistent with other MITM-class findings (e.g., HS-TLS-PROTOCOL-0008, HS-TLS-CIPHER-0006) and reflects the network-position prerequisite.
 
 **Attack Prerequisites:**
 - Obtain a valid certificate for the accessed hostname (via CA, Let's Encrypt, etc.)

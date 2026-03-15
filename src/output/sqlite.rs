@@ -1,11 +1,9 @@
 use crate::errors::Result;
 use crate::models::{BenchmarkResult, ComplianceResult, RunSummary, ScanResult, ScoreSummary};
-use rand::RngCore;
 use rusqlite::{params, Connection};
 
 pub fn new_run_id() -> String {
-    let mut bytes = [0u8; 16];
-    rand::rng().fill_bytes(&mut bytes);
+    let bytes: [u8; 16] = rand::random();
     hex::encode(bytes)
 }
 

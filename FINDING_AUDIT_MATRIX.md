@@ -29,7 +29,7 @@ Primary source of truth: `src/findings/catalog.rs`
 | HS-TLS-CERT-0001 | Tls | Medium | Certificate expired | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | https://www.tenable.com/plugins/nessus/15901 |
 | HS-TLS-CERT-0002 | Tls | Info | Certificate not yet valid | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | https://www.tenable.com/plugins/nessus/42980 |
 | HS-TLS-CERT-0003 | Tls | Medium | Self-signed certificate (public context) | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N` | https://www.tenable.com/plugins/nessus/57582 |
-| HS-TLS-CERT-0004 | Tls | Info | Hostname mismatch (SAN/CN) | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:N` | https://www.tenable.com/plugins/nessus/45410; https://www.rfc-editor.org/rfc/rfc6125 |
+| HS-TLS-CERT-0004 | Tls | Medium | Hostname mismatch (SAN/CN) | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:L/A:N` | https://www.tenable.com/plugins/nessus/45410; https://www.tenable.com/plugins/nessus/45411; https://www.rfc-editor.org/rfc/rfc6125 |
 | HS-TLS-CERT-0005 | Tls | Medium | Weak signature algorithm (SHA1) | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | https://www.tenable.com/plugins/nessus/35291; https://www.tenable.com/plugins/nessus/86067 |
 | HS-TLS-CERT-0006 | Tls | Low | RSA key size < 2048 | `CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N` | https://www.tenable.com/plugins/nessus/73459; https://www.tenable.com/plugins/was/112540; https://csrc.nist.gov/pubs/sp/800/131/a/r2/final |
 | HS-TLS-CERT-0007 | Tls | Medium | Certificate chain incomplete | `CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:L/A:N` | https://www.tenable.com/plugins/nessus/51192 |
