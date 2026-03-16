@@ -26,7 +26,6 @@ jobs:
       matrix:
         os:
           - ubuntu-latest       # Linux x64
-          - macos-13            # macOS x64 (Intel)
           - macos-latest        # macOS ARM64 (Apple Silicon)
           - windows-latest      # Windows x64
           - windows-11-arm      # Windows ARM64
