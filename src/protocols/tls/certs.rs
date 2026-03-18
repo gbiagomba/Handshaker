@@ -1,11 +1,14 @@
 use crate::errors::{HandshakerError, Result};
 use crate::findings::catalog;
 use crate::models::{FindingInstance, Target};
+use crate::protocols::tls::posture::CertSummary;
+use openssl::pkey::Id;
 use openssl::ssl::{SslConnector, SslMethod};
 use openssl::x509::X509;
 use tokio::task::spawn_blocking;
 
-pub async fn check(target: &Target) -> Result<Vec<FindingInstance>> {
+/// Returns (findings, cert_summary).
+pub async fn check(target: &Target) -> Result<(Vec<FindingInstance>, Option<CertSummary>)> {
     let target = target.clone();
     spawn_blocking(move || check_blocking(&target))
         .await
@@ -26,13 +29,16 @@ fn push(findings: &mut Vec<FindingInstance>, id: &str, details: &str) {
     }
 }
 
-fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
+fn check_blocking(target: &Target) -> Result<(Vec<FindingInstance>, Option<CertSummary>)> {
     let mut findings = Vec::new();
+    let mut cert_summary = None;
+
     let builder =
         SslConnector::builder(SslMethod::tls()).map_err(|e| HandshakerError::Ssl(e.to_string()))?;
     let ssl = crate::protocols::tls::starttls::connect(target, builder);
     if let Ok(ssl) = ssl {
         if let Some(cert) = ssl.ssl().peer_certificate() {
+            cert_summary = Some(extract_cert_summary(&cert, &target.host));
             if is_expired(&cert) {
                 push(&mut findings, "HS-TLS-CERT-0001", "certificate expired");
             }
@@ -96,7 +102,68 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
             }
         }
     }
-    Ok(findings)
+    Ok((findings, cert_summary))
+}
+
+fn extract_cert_summary(cert: &X509, host: &str) -> CertSummary {
+    let subject = cert
+        .subject_name()
+        .entries_by_nid(openssl::nid::Nid::COMMONNAME)
+        .next()
+        .and_then(|e| e.data().as_utf8().ok().map(|s| s.to_string()))
+        .unwrap_or_else(|| host.to_string());
+
+    let issuer = cert
+        .issuer_name()
+        .entries_by_nid(openssl::nid::Nid::COMMONNAME)
+        .next()
+        .and_then(|e| e.data().as_utf8().ok().map(|s| s.to_string()))
+        .unwrap_or_default();
+
+    let not_before = cert.not_before().to_string();
+    let not_after = cert.not_after().to_string();
+
+    let (key_type, key_bits) = if let Ok(pkey) = cert.public_key() {
+        let kt = match pkey.id() {
+            Id::RSA => "RSA".to_string(),
+            Id::EC => "ECDSA".to_string(),
+            Id::DSA => "DSA".to_string(),
+            _ => "unknown".to_string(),
+        };
+        let kb = pkey.bits();
+        (kt, kb)
+    } else {
+        ("unknown".to_string(), 0)
+    };
+
+    let sig_algorithm = cert
+        .signature_algorithm()
+        .object()
+        .nid()
+        .short_name()
+        .map(|s| s.to_string())
+        .unwrap_or_default();
+
+    let sans = cert
+        .subject_alt_names()
+        .map(|names| {
+            names
+                .iter()
+                .filter_map(|n| n.dnsname().map(|s| s.to_string()))
+                .collect()
+        })
+        .unwrap_or_default();
+
+    CertSummary {
+        subject,
+        issuer,
+        not_before,
+        not_after,
+        key_type,
+        key_bits,
+        sig_algorithm,
+        sans,
+    }
 }
 
 fn hostname_matches(cert: &X509, host: &str) -> bool {

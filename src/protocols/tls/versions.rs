@@ -4,19 +4,29 @@ use crate::models::{FindingInstance, Target};
 use openssl::ssl::{SslConnector, SslMethod, SslVersion};
 use tokio::task::spawn_blocking;
 
-pub async fn check(target: &Target) -> Result<Vec<FindingInstance>> {
+/// Returns (findings, protocols_accepted, protocols_rejected).
+pub async fn check(
+    target: &Target,
+) -> Result<(Vec<FindingInstance>, Vec<String>, Vec<String>)> {
     let mut findings = Vec::new();
+    let mut accepted = Vec::new();
+    let mut rejected = Vec::new();
 
     let versions = [
-        (SslVersion::SSL3, "HS-TLS-PROTOCOL-0002"),
-        (SslVersion::TLS1, "HS-TLS-PROTOCOL-0003"),
-        (SslVersion::TLS1_1, "HS-TLS-PROTOCOL-0004"),
-        (SslVersion::TLS1_2, "HS-TLS-PROTOCOL-0005"),
-        (SslVersion::TLS1_3, "HS-TLS-PROTOCOL-0006"),
+        (SslVersion::SSL3,   "HS-TLS-PROTOCOL-0002", "SSLv3"),
+        (SslVersion::TLS1,   "HS-TLS-PROTOCOL-0003", "TLS1.0"),
+        (SslVersion::TLS1_1, "HS-TLS-PROTOCOL-0004", "TLS1.1"),
+        (SslVersion::TLS1_2, "HS-TLS-PROTOCOL-0005", "TLS1.2"),
+        (SslVersion::TLS1_3, "HS-TLS-PROTOCOL-0006", "TLS1.3"),
     ];
 
-    for (version, id) in versions {
+    for (version, id, name) in versions {
         if let Ok(supported) = try_version_async(target, version).await {
+            if supported {
+                accepted.push(name.to_string());
+            } else {
+                rejected.push(name.to_string());
+            }
             if (id == "HS-TLS-PROTOCOL-0005" || id == "HS-TLS-PROTOCOL-0006") && supported {
                 continue;
             }
@@ -32,7 +42,7 @@ pub async fn check(target: &Target) -> Result<Vec<FindingInstance>> {
         }
     }
 
-    Ok(findings)
+    Ok((findings, accepted, rejected))
 }
 
 fn try_version(target: &Target, version: SslVersion) -> Result<bool> {

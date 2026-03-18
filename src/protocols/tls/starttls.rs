@@ -1,7 +1,8 @@
 use crate::errors::{HandshakerError, Result};
 use openssl::ssl::{SslConnectorBuilder, SslStream};
 use std::io::{Read, Write};
-use std::net::TcpStream;
+use std::net::{TcpStream, ToSocketAddrs};
+use std::time::Duration;
 
 #[derive(Debug, Clone, Copy)]
 pub struct StarttlsStatus {
@@ -14,7 +15,12 @@ pub fn connect(
     builder: SslConnectorBuilder,
 ) -> Result<SslStream<TcpStream>> {
     let addr = format!("{}:{}", target.host, target.port);
-    let mut stream = TcpStream::connect(addr)?;
+    let sock_addr = addr
+        .to_socket_addrs()
+        .map_err(|e| HandshakerError::Ssl(e.to_string()))?
+        .next()
+        .ok_or_else(|| HandshakerError::Ssl("DNS resolution failed".into()))?;
+    let mut stream = TcpStream::connect_timeout(&sock_addr, Duration::from_secs(10))?;
     if requires_starttls(target.port) {
         perform_starttls(&mut stream, target.port)?;
     }
@@ -33,7 +39,12 @@ pub fn check_downgrade(host: &str, port: u16) -> Result<Option<StarttlsStatus>> 
         return Ok(None);
     }
     let addr = format!("{host}:{port}");
-    let mut stream = TcpStream::connect(addr)?;
+    let sock_addr = addr
+        .to_socket_addrs()
+        .map_err(|e| HandshakerError::Ssl(e.to_string()))?
+        .next()
+        .ok_or_else(|| HandshakerError::Ssl("DNS resolution failed".into()))?;
+    let mut stream = TcpStream::connect_timeout(&sock_addr, Duration::from_secs(10))?;
     let status = match port {
         25 | 587 => smtp_status(&mut stream)?,
         143 => imap_status(&mut stream)?,

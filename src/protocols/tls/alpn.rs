@@ -4,24 +4,28 @@ use crate::models::{FindingInstance, Target};
 use openssl::ssl::{SslConnector, SslMethod, SslVersion};
 use tokio::task::spawn_blocking;
 
-pub async fn check(target: &Target) -> Result<Vec<FindingInstance>> {
+/// Returns (findings, alpn_protocols_negotiated).
+pub async fn check(target: &Target) -> Result<(Vec<FindingInstance>, Vec<String>)> {
     let target = target.clone();
     spawn_blocking(move || check_blocking(&target))
         .await
         .unwrap_or_else(|e| Err(HandshakerError::Ssl(format!("join error: {e}"))))
 }
 
-fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
+fn check_blocking(target: &Target) -> Result<(Vec<FindingInstance>, Vec<String>)> {
     let mut findings = Vec::new();
+    let mut alpn_protocols = Vec::new();
+
     let mut builder =
         SslConnector::builder(SslMethod::tls()).map_err(|e| HandshakerError::Ssl(e.to_string()))?;
     builder.set_alpn_protos(b"\x02h2\x08http/1.1").ok();
     if let Ok(ssl) = crate::protocols::tls::starttls::connect(target, builder) {
         if let Some(alpn) = ssl.ssl().selected_alpn_protocol() {
-            let alpn = String::from_utf8_lossy(alpn).to_string();
-            if alpn == "h2"
-                && (supports_tls_version(target, SslVersion::TLS1)?
-                    || supports_tls_version(target, SslVersion::TLS1_1)?)
+            let alpn_str = String::from_utf8_lossy(alpn).to_string();
+            alpn_protocols.push(alpn_str.clone());
+            if alpn_str == "h2"
+                && (supports_tls_version(target, SslVersion::TLS1).unwrap_or(false)
+                    || supports_tls_version(target, SslVersion::TLS1_1).unwrap_or(false))
             {
                 if let Some(meta) = catalog::find_by_id("HS-TLS-PROTOCOL-0010") {
                     findings.push(build(meta, "HTTP/2 offered with weak TLS versions".into()));
@@ -31,7 +35,7 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
             findings.push(build(meta, "ALPN not advertised".into()));
         }
     }
-    Ok(findings)
+    Ok((findings, alpn_protocols))
 }
 
 fn supports_tls_version(target: &Target, version: SslVersion) -> Result<bool> {

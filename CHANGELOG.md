@@ -2,6 +2,48 @@
 
 All notable changes to this project will be documented in this file.
 
+## [7.5.0] - 2026-03-17
+
+### Fixed
+- **Scan error bug**: `?` on expected cipher-probe failures (NULL, aNULL, EXP, RC4, 3DES)
+  propagated up to `async_runner` and produced `HS-GENERAL-CONFIG-0902 "scan error"` on
+  well-configured servers. All probe connection failures are now treated as "not supported"
+  instead of fatal errors.
+- `handshake_with_builder` returns `Ok("")` on connection failure (cipher/version unsupported)
+  rather than propagating the error.
+- `handshake_cipher` swallows `set_cipher_list` errors (cipher family not compiled into
+  OpenSSL) and returns `Ok("")` rather than `Err`.
+- `check_blocking` (ciphers) now short-circuits to empty results when the initial default
+  connection fails, preventing false-positive "no AEAD" / "no FS" findings.
+- `scenarios.rs`: `supports_cipher_list`, `weak_cipher_preference`, `dh_temp_bits`,
+  `session_resumption_supported` all return `Ok(...)` on connection failure instead of `Err`.
+  All `?` calls in `check_blocking` replaced with `.unwrap_or(false)` / `.unwrap_or(None)`.
+  `check_downgrade` and `tls13_early_data_enabled` failures are silently skipped.
+- `starttls::connect` now uses `TcpStream::connect_timeout` (10 s) instead of the OS
+  default (~75 s) to avoid per-connection hangs that exceed the scan timeout.
+
+### Added
+- **TLS Posture output** (sslscan-like): every successful scan now populates a `posture`
+  object in `metadata`:
+  - `protocols_accepted` / `protocols_rejected` — which TLS/SSL versions connected
+  - `cipher_categories` — AEAD, FS, NULL, 3DES, RC4, EXPORT, MEDIUM: accepted/rejected
+  - `certificate` — subject, issuer, validity dates, key type/bits, signature algorithm, SANs
+  - `alpn_protocols` — negotiated application protocols (e.g. `["h2"]`)
+  - `fallback_scsv` / `secure_renegotiation` / `compression` — boolean posture flags
+- `src/protocols/tls/posture.rs` — new `TlsPosture`, `CipherCategory`, `CertSummary` structs
+- `tests/tls_probe.rs` — 5 new fault-tolerance tests verifying all modules return `Ok` on
+  unreachable hosts
+
+### Changed
+- `src/protocols/tls/probe.rs`: sequential `.await?` chain replaced with `tokio::join!`;
+  scan time is now `max(module_time)` instead of `sum(module_times)`.
+- All TLS module return types extended to include posture data alongside findings:
+  `versions::check` → `(findings, accepted, rejected)`
+  `ciphers::check`  → `(findings, Vec<CipherCategory>)`
+  `certs::check`    → `(findings, Option<CertSummary>)`
+  `alpn::check`     → `(findings, Vec<String>)`
+  `scenarios::check`→ `(findings, fallback_scsv, secure_renegotiation, compression)`
+
 ## [7.4.0] - 2026-03-15
 
 ### Added

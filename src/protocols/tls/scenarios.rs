@@ -22,18 +22,23 @@ use tokio::task::spawn_blocking;
 
 use super::starttls;
 
-pub async fn check(target: &Target) -> Result<Vec<FindingInstance>> {
+/// Returns (findings, fallback_scsv, secure_renegotiation, compression).
+pub async fn check(
+    target: &Target,
+) -> Result<(Vec<FindingInstance>, Option<bool>, Option<bool>, Option<bool>)> {
     let target = target.clone();
     spawn_blocking(move || check_blocking(&target))
         .await
         .unwrap_or_else(|e| Err(HandshakerError::Ssl(format!("join error: {e}"))))
 }
 
-fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
+fn check_blocking(
+    target: &Target,
+) -> Result<(Vec<FindingInstance>, Option<bool>, Option<bool>, Option<bool>)> {
     let mut findings = Vec::new();
 
-    let tls12 = supports_tls_version(target, SslVersion::TLS1_2)?;
-    let tls10 = supports_tls_version(target, SslVersion::TLS1)?;
+    let tls12 = supports_tls_version(target, SslVersion::TLS1_2).unwrap_or(false);
+    let tls10 = supports_tls_version(target, SslVersion::TLS1).unwrap_or(false);
     if tls10 {
         push(
             &mut findings,
@@ -42,15 +47,21 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
         );
     }
 
-    if tls12 && tls10 && !supports_fallback_scsv(target)? {
-        push(
-            &mut findings,
-            "HS-TLS-SCENARIO-0001",
-            "TLS_FALLBACK_SCSV not supported",
-        );
-    }
+    let fallback_scsv = if tls10 {
+        let scsv = supports_fallback_scsv(target).unwrap_or(false);
+        if tls12 && !scsv {
+            push(
+                &mut findings,
+                "HS-TLS-SCENARIO-0001",
+                "TLS_FALLBACK_SCSV not supported",
+            );
+        }
+        Some(scsv)
+    } else {
+        None
+    };
 
-    if supports_cipher_list(target, "3DES")? {
+    if supports_cipher_list(target, "3DES").unwrap_or(false) {
         push(
             &mut findings,
             "HS-TLS-SCENARIO-0005",
@@ -58,7 +69,9 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
         );
     }
 
-    if supports_tls_version(target, SslVersion::TLS1)? && supports_cipher_list(target, "CBC")? {
+    if supports_tls_version(target, SslVersion::TLS1).unwrap_or(false)
+        && supports_cipher_list(target, "CBC").unwrap_or(false)
+    {
         push(
             &mut findings,
             "HS-TLS-SCENARIO-0006",
@@ -71,7 +84,7 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
         );
     }
 
-    if weak_cipher_preference(target)? {
+    if weak_cipher_preference(target).unwrap_or(false) {
         push(
             &mut findings,
             "HS-TLS-SCENARIO-0008",
@@ -79,13 +92,13 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
         );
     }
 
-    if let Some(bits) = dh_temp_bits(target)? {
+    if let Some(bits) = dh_temp_bits(target).unwrap_or(None) {
         if bits < 2048 {
             push(&mut findings, "HS-TLS-SCENARIO-0004", "Weak DH parameters");
         }
     }
 
-    if session_resumption_supported(target)? {
+    if session_resumption_supported(target).unwrap_or(false) {
         push(
             &mut findings,
             "HS-TLS-SCENARIO-0003",
@@ -93,26 +106,24 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
         );
     }
 
-    if let Some(comp) = tls_compression_enabled(target)? {
-        if comp {
-            if let Some(meta) = catalog::find_by_id("HS-TLS-PROTOCOL-0009") {
-                findings.push(build(meta, "TLS compression enabled".into()));
-            }
+    let compression = tls_compression_enabled(target).unwrap_or(None);
+    if let Some(true) = compression {
+        if let Some(meta) = catalog::find_by_id("HS-TLS-PROTOCOL-0009") {
+            findings.push(build(meta, "TLS compression enabled".into()));
         }
     }
 
-    if let Some(supported) = secure_renegotiation_supported(target)? {
-        if !supported {
-            if let Some(meta) = catalog::find_by_id("HS-TLS-PROTOCOL-0008") {
-                findings.push(build(meta, "secure renegotiation not supported".into()));
-            }
-            if let Some(meta) = catalog::find_by_id("HS-TLS-PROTOCOL-0007") {
-                findings.push(build(meta, "insecure renegotiation likely allowed".into()));
-            }
+    let secure_renegotiation = secure_renegotiation_supported(target).unwrap_or(None);
+    if let Some(false) = secure_renegotiation {
+        if let Some(meta) = catalog::find_by_id("HS-TLS-PROTOCOL-0008") {
+            findings.push(build(meta, "secure renegotiation not supported".into()));
+        }
+        if let Some(meta) = catalog::find_by_id("HS-TLS-PROTOCOL-0007") {
+            findings.push(build(meta, "insecure renegotiation likely allowed".into()));
         }
     }
 
-    if let Some(status) = starttls::check_downgrade(&target.host, target.port)? {
+    if let Ok(Some(status)) = starttls::check_downgrade(&target.host, target.port) {
         if !status.advertised {
             push(
                 &mut findings,
@@ -128,7 +139,7 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
         }
     }
 
-    if tls13_early_data_enabled(target)? {
+    if tls13_early_data_enabled(target).unwrap_or(false) {
         push(
             &mut findings,
             "HS-TLS-SCENARIO-0009",
@@ -136,7 +147,7 @@ fn check_blocking(target: &Target) -> Result<Vec<FindingInstance>> {
         );
     }
 
-    Ok(findings)
+    Ok((findings, fallback_scsv, secure_renegotiation, compression))
 }
 
 fn supports_tls_version(target: &Target, version: SslVersion) -> Result<bool> {
@@ -159,9 +170,10 @@ fn supports_fallback_scsv(target: &Target) -> Result<bool> {
 fn supports_cipher_list(target: &Target, cipher_list: &str) -> Result<bool> {
     let mut builder =
         SslConnector::builder(SslMethod::tls()).map_err(|e| HandshakerError::Ssl(e.to_string()))?;
-    builder
-        .set_cipher_list(cipher_list)
-        .map_err(|e| HandshakerError::Ssl(e.to_string()))?;
+    if builder.set_cipher_list(cipher_list).is_err() {
+        // Cipher family not compiled into this OpenSSL build → treat as unsupported.
+        return Ok(false);
+    }
     Ok(crate::protocols::tls::starttls::connect(target, builder).is_ok())
 }
 
@@ -171,31 +183,41 @@ fn weak_cipher_preference(target: &Target) -> Result<bool> {
     builder
         .set_cipher_list("ECDHE-RSA-AES256-GCM-SHA384:DES-CBC3-SHA")
         .map_err(|e| HandshakerError::Ssl(e.to_string()))?;
-    let ssl = crate::protocols::tls::starttls::connect(target, builder)?;
-    let cipher = ssl
-        .ssl()
-        .current_cipher()
-        .map(|c| c.name().to_string())
-        .unwrap_or_default();
-    Ok(cipher.contains("3DES") || cipher.contains("DES-CBC"))
+    match crate::protocols::tls::starttls::connect(target, builder) {
+        Ok(ssl) => {
+            let cipher = ssl
+                .ssl()
+                .current_cipher()
+                .map(|c| c.name().to_string())
+                .unwrap_or_default();
+            Ok(cipher.contains("3DES") || cipher.contains("DES-CBC"))
+        }
+        Err(_) => Ok(false),
+    }
 }
 
 fn dh_temp_bits(target: &Target) -> Result<Option<u32>> {
     let mut builder =
         SslConnector::builder(SslMethod::tls()).map_err(|e| HandshakerError::Ssl(e.to_string()))?;
     builder.set_cipher_list("DHE:!aNULL").ok();
-    let ssl = crate::protocols::tls::starttls::connect(target, builder)?;
-    if let Ok(key) = ssl.ssl().tmp_key() {
-        return Ok(Some(key.bits()));
+    match crate::protocols::tls::starttls::connect(target, builder) {
+        Ok(ssl) => {
+            if let Ok(key) = ssl.ssl().tmp_key() {
+                return Ok(Some(key.bits()));
+            }
+            Ok(None)
+        }
+        Err(_) => Ok(None),
     }
-    Ok(None)
 }
 
 fn session_resumption_supported(target: &Target) -> Result<bool> {
     let connector =
         SslConnector::builder(SslMethod::tls()).map_err(|e| HandshakerError::Ssl(e.to_string()))?;
-    let ssl1 = crate::protocols::tls::starttls::connect(target, connector)?;
-    Ok(ssl1.ssl().session().is_some())
+    match crate::protocols::tls::starttls::connect(target, connector) {
+        Ok(ssl) => Ok(ssl.ssl().session().is_some()),
+        Err(_) => Ok(false),
+    }
 }
 
 fn tls_compression_enabled(target: &Target) -> Result<Option<bool>> {
